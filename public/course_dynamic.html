@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexttoppers · Course Details</title>
+<meta name="description" content="Explore detailed course information, chapters, and live classes at Nexttoppers. Start your deep dive into the subject with our structured content.">
+<meta name="keywords" content="Nexttoppers, course details, chapters, live classes, education, Sanskrit">
+
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="/course_dynamic.html">
+<meta property="og:title" content="Nexttoppers · Course Details">
+<meta property="og:description" content="Explore detailed course information and chapters at Nexttoppers.">
+<meta property="og:image" content="https://d1xo3otg0k74xn.cloudfront.net/566/admin_v1/bundle_management/course/153063845307_PRO%202027%20BANNER%20%20%282%29.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Teko:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #05070a;
+  --card-bg: #111319;
+  --accent: #ff7e21;
+  --accent-glow: rgba(255, 126, 33, 0.4);
+  --text-primary: #ffffff;
+  --text-secondary: #888b94;
+  --text-cream: #f1f1e6;
+  --border: rgba(255, 255, 255, 0.06);
+  --grid-color: rgba(255, 126, 33, 0.03);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* BACKGROUND ATMOSPHERE */
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.glow-overlay {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 60vh;
+  background: radial-gradient(circle, rgba(255, 126, 33, 0.08) 0%, transparent 70%);
+  filter: blur(80px);
+}
+
+canvas#fireCanvas {
+  position: absolute;
+  inset: 0;
+}
+
+/* HEADER */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(5, 7, 10, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-l {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 16px;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.back-btn:hover {
+  background: rgba(255, 126, 33, 0.1);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #ff7e21, #ff4d00);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Teko', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: white;
+}
+
+.brand-name {
+  font-family: 'Teko', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.course-id-chip {
+  font-family: 'Teko', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  opacity: 0.6;
+}
+
+/* WRAP */
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px 100px;
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 32px;
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 32px;
+  align-items: center;
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 300px; height: 100%;
+  background: radial-gradient(circle at 100% 50%, rgba(255, 126, 33, 0.05), transparent);
+  pointer-events: none;
+}
+
+.hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.dot {
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.hero-kicker span {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.hero-title {
+  font-family: 'Teko', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 0.9;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.hero-pills {
+  display: flex;
+  gap: 8px;
+}
+
+.pill {
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.pill-new { background: rgba(255, 126, 33, 0.1); color: var(--accent); border: 1px solid rgba(255, 126, 33, 0.2); }
+.pill-trend { background: rgba(255, 255, 255, 0.05); color: var(--text-secondary); border: 1px solid var(--border); }
+
+.hero-thumb {
+  width: 100%;
+  aspect-ratio: 16/10;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
+/* TABS */
+.tabs-wrap {
+  position: sticky;
+  top: 73px;
+  z-index: 90;
+  background: rgba(5, 7, 10, 0.8);
+  backdrop-filter: blur(12px);
+  margin: 0 -20px 32px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tabs-bar {
+  display: flex;
+  gap: 32px;
+}
+
+.tab-btn {
+  padding: 20px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-secondary);
+  font-family: 'Teko', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.tab-btn:hover { color: var(--text-primary); }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+.tab-pane { display: none; animation: fadeIn 0.4s ease; }
+.tab-pane.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* SECTION LABEL */
+.sec-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* OVERVIEW */
+.ov-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+}
+
+.ov-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+}
+
+.ov-desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.ov-desc p { margin-bottom: 16px; }
+.ov-desc ul { padding-left: 20px; margin-bottom: 16px; }
+.ov-desc li { margin-bottom: 8px; }
+
+.info-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.ic-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.ic-row:last-child { border-bottom: none; }
+
+.ic-lbl { font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; }
+.ic-val { font-size: 0.85rem; font-weight: 700; color: var(--text-primary); }
+
+.cta-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #ff7e21, #ff4d00);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-family: 'Teko', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 8px 20px rgba(255, 77, 0, 0.2);
+}
+
+.cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(255, 77, 0, 0.3); }
+
+/* PACKAGES */
+.pkg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-top: 10px; }
+
+.pkg-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.pkg-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+.pkg-thumb-wrap { width: 100%; aspect-ratio: 16/9; overflow: hidden; border-bottom: 1px solid var(--border); }
+.pkg-thumb { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+.pkg-card:hover .pkg-thumb { transform: scale(1.05); }
+.pkg-body { padding: 16px; }
+.pkg-title { font-family: 'Teko', sans-serif; font-size: 1.1rem; color: var(--text-primary); text-transform: uppercase; line-height: 1.2; }
+
+/* BREADCRUMB */
+.bc { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; font-size: 0.7rem; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+.bc-link { color: var(--text-secondary); cursor: pointer; transition: 0.2s; }
+.bc-link:hover { color: var(--accent); }
+.bc-cur { color: var(--accent); }
+
+/* FOLDERS */
+.folder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+
+.folder-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.folder-item:hover { transform: translateX(5px); border-color: var(--accent); background: rgba(255, 126, 33, 0.03); }
+.fi-ico { font-size: 1.2rem; opacity: 0.6; }
+.fi-name { font-family: 'Teko', sans-serif; font-size: 1.2rem; color: var(--text-primary); text-transform: uppercase; }
+.fi-arr { margin-left: auto; color: var(--accent); opacity: 0.5; }
+
+/* VIDEO LIST */
+.video-list { display: flex; flex-direction: column; gap: 8px; }
+
+.video-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.video-item:hover { transform: translateX(5px); border-color: var(--accent); background: rgba(255, 126, 33, 0.03); }
+.vi-thumb { width: 80px; aspect-ratio: 16/9; border-radius: 6px; object-fit: cover; background: #000; }
+.vi-body { flex: 1; }
+.vi-name { font-family: 'Teko', sans-serif; font-size: 1.1rem; color: var(--text-primary); text-transform: uppercase; margin-bottom: 4px; }
+.vi-meta { display: flex; align-items: center; gap: 8px; }
+.vbadge { font-size: 0.6rem; font-weight: 800; padding: 2px 8px; border-radius: 100px; text-transform: uppercase; }
+.vb-video { background: rgba(255, 126, 33, 0.1); color: var(--accent); }
+.vb-pdf { background: rgba(255, 255, 255, 0.05); color: var(--text-secondary); }
+.vi-dur { font-size: 0.7rem; color: var(--text-secondary); font-weight: 600; }
+.vi-act { width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 0.8rem; }
+
+/* LIVE CLASSES */
+.live-grid { display: grid; gap: 16px; }
+
+.live-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  gap: 24px;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.live-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.live-thumb-wrap { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; }
+.live-thumb { width: 100%; height: 100%; object-fit: cover; }
+.live-indicator { position: absolute; top: 8px; left: 8px; background: #ff4d00; color: white; font-size: 0.55rem; font-weight: 800; padding: 4px 10px; border-radius: 100px; display: flex; align-items: center; gap: 6px; }
+.live-dot { width: 5px; height: 5px; background: white; border-radius: 50%; animation: blink 1s infinite; }
+.live-title { font-family: 'Teko', sans-serif; font-size: 1.4rem; color: var(--text-primary); text-transform: uppercase; margin-bottom: 4px; }
+.live-meta { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px; }
+.live-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.live-btn { padding: 8px 24px; background: transparent; border: 1px solid var(--accent); border-radius: 8px; color: var(--accent); font-family: 'Teko', sans-serif; font-size: 1rem; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: all 0.3s; }
+.live-card:hover .live-btn { background: var(--accent); color: white; }
+
+.branded-placeholder {
+  object-fit: contain !important;
+  padding: 20px;
+  background: rgba(255,255,255,0.02);
+}
+
+.test-thumb {
+  object-fit: contain !important;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* PLAYER OVERLAY */
+.player-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(5, 7, 10, 0.98); backdrop-filter: blur(24px); flex-direction: column; align-items: center; justify-content: center; padding: 12px; }
+.player-overlay.show { display: flex; }
+.player-header { width: 100%; max-width: 960px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.player-title { font-family: 'Teko', sans-serif; font-size: 1.25rem; color: var(--text-primary); text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; margin-right: 12px; }
+.player-close { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; color: var(--text-secondary); font-size: 0.75rem; font-weight: 700; cursor: pointer; min-height: 44px; white-space: nowrap; }
+.player-box { width: 100%; max-width: 960px; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #000; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+.player-box iframe { width: 100%; height: 100%; border: none; }
+
+@media (max-width: 768px) {
+  .player-overlay { padding: 8px; justify-content: flex-start; padding-top: 80px; }
+  .player-box { border-radius: 8px; }
+  .player-title { font-size: 1rem; }
+}
+
+/* LOADER */
+.loader { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+.loader.show { display: flex; }
+.spin { width: 40px; height: 40px; border: 3px solid rgba(255, 126, 33, 0.1); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
+.loader-txt { font-size: 0.7rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* TOAST */
+.toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(20px); z-index: 1100; padding: 12px 24px; border-radius: 12px; background: #1a1c24; border: 1px solid var(--border); color: var(--text-primary); font-size: 0.85rem; font-weight: 600; opacity: 0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.ok { border-color: #00ff88; color: #00ff88; }
+
+/* STATE BOX */
+.state-box { padding: 60px 20px; text-align: center; background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; }
+.state-ico { font-size: 3rem; margin-bottom: 20px; opacity: 0.2; }
+.state-title { font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+
+/* FOOTER */
+footer {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.footer-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.footer-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0.4;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.footer-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  header { padding: 12px 16px; }
+  .wrap { padding: 20px 12px 80px; }
+  .hero { grid-template-columns: 1fr; padding: 24px; gap: 20px; border-radius: 20px; text-align: center; }
+  .hero-title { font-size: 2.2rem; }
+  .hero-kicker { justify-content: center; }
+  .hero-pills { justify-content: center; }
+  .ov-grid { grid-template-columns: 1fr; gap: 24px; }
+  .live-card { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
+  .live-thumb-wrap { width: 100%; height: auto; }
+  .live-indicator { top: 12px; left: 12px; }
+  .live-btn { width: 100%; min-height: 44px; }
+  .tabs-wrap { top: 60px; margin-bottom: 24px; }
+  .tab-btn { padding: 14px 10px; font-size: 0.85rem; flex: 1; text-align: center; }
+  .tabs-bar { gap: 0; justify-content: space-around; }
+  .folder-item { padding: 18px 20px; min-height: 56px; }
+  .fi-name { font-size: 1.1rem; }
+  .video-item { padding: 14px 16px; }
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 1.8rem; }
+  .brand-name { font-size: 1.2rem; }
+  .back-btn span { display: none; }
+  .back-btn { padding: 10px 14px; min-height: 40px; }
+  .fi-name { font-size: 1rem; }
+  .video-item { flex-direction: row; align-items: center; }
+  .vi-thumb { width: 60px; height: 40px; }
+  .vi-name { font-size: 0.9rem; }
+  .tabs-bar { overflow-x: auto; justify-content: flex-start; }
+  .tab-btn { flex: none; padding: 14px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="atmosphere">
+  <div class="grid-overlay"></div>
+  <div class="glow-overlay"></div>
+  <canvas id="fireCanvas"></canvas>
+</div>
+
+<div class="loader" id="loadingOverlay">
+  <div class="spin"></div>
+  <div class="loader-txt" id="loaderTxt">Igniting Content...</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- VIDEO PLAYER OVERLAY -->
+<div class="player-overlay" id="playerOverlay">
+  <div class="player-header">
+    <div class="player-title" id="playerTitle"></div>
+    <button class="player-close" onclick="closePlayer()">✕ Close</button>
+  </div>
+  <div class="player-box" id="playerBox"></div>
+</div>
+
+<header>
+  <div class="header-l">
+    <button class="back-btn" onclick="goBack()">
+      ← <span id="backLabel">Home</span>
+    </button>
+    <a href="index.html" class="nav-brand">
+      <div class="brand-logo">NT</div>
+      <span class="brand-name">Nexttoppers</span>
+    </a>
+  </div>
+  <div class="course-id-chip" id="courseChip">#000</div>
+</header>
+
+<div class="wrap">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-body">
+      <div class="hero-kicker">
+        <div class="dot"></div>
+        <span>Course Overview</span>
+      </div>
+      <div class="hero-title" id="heroTitle">Loading...</div>
+      <div class="hero-pills" id="heroPills"></div>
+    </div>
+    <img class="hero-thumb" id="heroThumb" src="" alt="">
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-wrap">
+    <div class="tabs-bar" id="tabsBar">
+      <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+      <button class="tab-btn" onclick="switchTab('content')">Course Content</button>
+      <button class="tab-btn" onclick="switchTab('live')">Live Classes</button>
+    </div>
+  </div>
+
+  <!-- OVERVIEW TAB -->
+  <div class="tab-pane active" id="tab-overview">
+    <div class="ov-grid">
+      <div>
+        <div class="ov-card">
+          <div class="sec-label">About this Course</div>
+          <div class="ov-desc" id="courseDesc">Loading descriptions...</div>
+        </div>
+        
+        <div id="packagesSection" style="display:none; margin-top:32px">
+          <div class="sec-label">Included Packages</div>
+          <div class="pkg-grid" id="packagesArea"></div>
+        </div>
+      </div>
+      
+      <div>
+        <div class="info-card">
+          <div class="sec-label">Course Details</div>
+          <div id="courseDetails">Loading...</div>
+        </div>
+        <button class="cta-btn" onclick="handleStartLearning()">Start Learning →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT TAB -->
+  <div class="tab-pane" id="tab-content">
+    <div class="bc" id="breadcrumb"><span class="bc-cur">Course</span></div>
+    <div id="contentArea">
+      <div class="state-box">
+        <div class="spin" style="margin:0 auto 20px"></div>
+        <div class="state-title">Loading chapters…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIDEOS TAB (Sanskrit) -->
+  <div class="tab-pane" id="tab-videos">
+    <div class="bc" id="breadcrumb-videos"><span class="bc-cur">Videos</span></div>
+    <div id="contentArea-videos"></div>
+  </div>
+
+  <!-- PDFS TAB (Sanskrit) -->
+  <div class="tab-pane" id="tab-pdfs">
+    <div class="bc" id="breadcrumb-pdfs"><span class="bc-cur">PDFs</span></div>
+    <div id="contentArea-pdfs"></div>
+  </div>
+
+  <!-- LIVE CLASSES TAB -->
+  <div class="tab-pane" id="tab-live">
+    <div class="sec-label">Scheduled Classes</div>
+    <div id="liveArea">
+      <div class="state-box">
+        <div class="spin" style="margin:0 auto 20px"></div>
+        <div class="state-title">Fetching live schedule…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-dots">
+    <div class="footer-dot"></div>
+    <div class="footer-dot"></div>
+    <div class="footer-dot"></div>
+  </div>
+  <div class="footer-text">Nexttoppers — Work Hard, Dream Big ✦ Never Give Up</div>
+  <div class="footer-text" style="margin-top: 10px; font-size: 0.65rem; opacity: 0.7;">
+    Developed by <span style="color: var(--accent);">SAATHVIK ©</span>
+  </div>
+</footer>
+
+<script src="sanskrit_data.js"></script>
+<script src="api-helper.js"></script>
+<script>
+/* FIRE PARTICLES ANIMATION */
+const canvas = document.getElementById('fireCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.addEventListener('resize', resize);
+resize();
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = canvas.height + Math.random() * 100;
+    this.size = Math.random() * 2 + 1;
+    this.speedY = Math.random() * 1 + 0.5;
+    this.speedX = Math.random() * 0.5 - 0.25;
+    this.opacity = Math.random() * 0.5 + 0.2;
+    this.fade = Math.random() * 0.005 + 0.002;
+  }
+  update() { this.y -= this.speedY; this.x += this.speedX; this.opacity -= this.fade; if (this.opacity <= 0 || this.y < -10) this.reset(); }
+  draw() {
+    ctx.fillStyle = `rgba(255, 126, 33, ${this.opacity})`;
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+    ctx.shadowBlur = 10; ctx.shadowColor = 'rgba(255, 126, 33, 0.5)';
+  }
+}
+function initParticles() { 
+  particles = [];
+  const count = window.innerWidth < 768 ? 25 : 50;
+  for (let i = 0; i < count; i++) particles.push(new Particle()); 
+}
+/* Re-init particles on resize if crossing threshold */
+let wasMobile = window.innerWidth < 768;
+window.addEventListener('resize', () => {
+  const isMobile = window.innerWidth < 768;
+  if (isMobile !== wasMobile) {
+    wasMobile = isMobile;
+    initParticles();
+  }
+});
+function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+initParticles(); animate();
+
+/* APP CONFIG & STATE */
+const urlParams = new URLSearchParams(window.location.search);
+const COURSE_ID = urlParams.get('course_id') || localStorage.getItem('lastCourseId') || '44743';
+let PARENT_ID = urlParams.get('parent_id') || '0';
+const IS_SANSKRIT = (COURSE_ID === '45307' || COURSE_ID === '45306' || COURSE_ID === '44743');
+if (IS_SANSKRIT && PARENT_ID === '0') PARENT_ID = '44743';
+if (COURSE_ID) localStorage.setItem('lastCourseId', COURSE_ID);
+
+const SANSKRIT_FALLBACK = {
+    "status": true,
+    "message": "Course Found.",
+    "data": {
+        "course_detail": {
+            "id": "45307",
+            "title": "SHEMUSHI BATCH",
+            "mrp": "550",
+            "course_sp": "999",
+            "validity": "500 Days",
+            "start_date": "1776318486",
+            "end_date": "4929918486",
+            "desc_header_image": "https://d1xo3otg0k74xn.cloudfront.net/566/admin_v1/bundle_management/course/153063845307_PRO%202027%20BANNER%20%20%282%29.jpg",
+            "description": "Comprehensive Sanskrit course covering grammar and literature for Class 10th (Shemushi)."
+        },
+        "tiles": [
+            {
+                "tile_name": "Content",
+                "meta": {
+                    "list": [
+                        { "id": "30296", "title": "LIVE CLASS PLANNER", "image_icon": "https://d1xo3otg0k74xn.cloudfront.net/566/admin_v1/category_management/subject/6823850566_%E0%A4%9A%E0%A4%BF%E0%A4%A4%E0%A5%8D%E0%A4%B0%E0%A4%B2%E0%A5%87%E0%A4%96%E0%A4%A8%20%284%29.jpg", "count": "1" },
+                        { "id": "34317", "title": "Anuvad - अनुवाद", "image_icon": "https://d1xo3otg0k74xn.cloudfront.net/566/admin_v1/category_management/subject/5438663566_86.jpg", "count": "17" }
+                    ]
+                }
+            },
+            {
+                "tile_name": "PDF",
+                "meta": {
+                    "list": [
+                        { "id": "30296", "title": "LIVE CLASS PLANNER", "image_icon": "https://d1xo3otg0k74xn.cloudfront.net/566/admin_v1/category_management/subject/6823850566_%E0%A4%9A%E0%A4%BF%E0%A4%A4%E0%A5%8D%E0%A4%B0%E0%A4%B2%E0%A5%87%E0%A4%96%E0%A4%A8%20%284%29.jpg", "count": "1" },
+                        { "id": "34317", "title": "Anuvad - अनुवाद", "image_icon": "https://d1xo3otg0k74xn.cloudfront.net/566/admin_v1/category_management/subject/5438663566_86.jpg", "count": "10" }
+                    ]
+                }
+            },
+            {
+                "tile_name": "Video",
+                "meta": {
+                    "list": [
+                        { "id": "34317", "title": "Anuvad - अनुवाद", "image_icon": "https://d1xo3otg0k74xn.cloudfront.net/566/admin_v1/category_management/subject/5438663566_86.jpg", "count": "7" }
+                    ]
+                }
+            }
+        ]
+    }
+};
+
+let state = { view: 'root', activeTab: 'overview', path: [], contentData: null, liveData: null, isFetchingLive: false };
+let courseInfo = null;
+
+/* RENDER TABS */
+function renderTabs() {
+  const bar = document.getElementById('tabsBar');
+  if (!bar) return;
+  
+  let html = `<button class="tab-btn ${state.activeTab==='overview'?'active':''}" onclick="switchTab('overview')">Overview</button>`;
+  
+  // Task: Hide content tabs for the root Sanskrit Pro Batch (44743)
+  if (COURSE_ID !== '44743') {
+    if (IS_SANSKRIT) {
+      html += `
+        <button class="tab-btn ${state.activeTab==='content'?'active':''}" onclick="switchTab('content')">Course Content</button>
+        <button class="tab-btn ${state.activeTab==='videos'?'active':''}" onclick="switchTab('videos')">Videos</button>
+        <button class="tab-btn ${state.activeTab==='pdfs'?'active':''}" onclick="switchTab('pdfs')">PDFs</button>
+        <button class="tab-btn ${state.activeTab==='live'?'active':''}" onclick="switchTab('live')">Live Classes</button>
+      `;
+    } else {
+      html += `
+        <button class="tab-btn ${state.activeTab==='content'?'active':''}" onclick="switchTab('content')">Course Content</button>
+        <button class="tab-btn ${state.activeTab==='live'?'active':''}" onclick="switchTab('live')">Live Classes</button>
+      `;
+    }
+  }
+  bar.innerHTML = html;
+}
+
+/* API WRAPPERS */
+async function apiPost(endpoint, body) {
+  // Extract the endpoint name from the URL if a full URL is passed
+  const cleanEndpoint = endpoint.includes('/') ? endpoint.split('/').pop() : endpoint;
+  return await API.post(cleanEndpoint, body, 'nexttoppers-course');
+}
+
+async function fetchSanskritData(layer = 0, params = {}) {
+  const endpoint = (layer === 0 ? 'course-details' : 'get_master_data');
+  
+  let body;
+  if (layer === 0) {
+    // Task: Match exact payload from user logs for course-details
+    body = { 
+      course_id: COURSE_ID,
+      parent_id: PARENT_ID
+    };
+  } else {
+    // Task: Payload for get_master_data
+    body = { 
+      course_id: COURSE_ID,
+      parent_id: PARENT_ID,
+      tile_id: params.tile_id || '0',
+      subject_id: params.subject_id || params.id || '0',
+      topic_id: params.topic_id || params.id || '0',
+      revert_api: '1#0#0#1',
+      layer: layer || params.layer || 3,
+      page: params.page || 1,
+      type: params.type || 'content'
+    };
+    
+    // Ensure both tile and title are synced as per proxy logic
+    body.title_id = body.tile_id;
+  }
+
+  // Use the local proxy via API helper
+  try {
+    const freshData = await API.post(endpoint, body);
+    if (freshData.status) {
+      console.log('Sanskrit Data: Fresh from API Proxy');
+      return freshData;
+    }
+  } catch (e) {
+    console.warn('Sanskrit Data: Proxy fetch failed, falling back to local data.');
+  }
+
+  // Fallback to local data (embedded in sanskrit_data.js)
+  if (typeof SANSKRIT_MASTER_DATA === 'undefined') {
+    if (layer === 0) return SANSKRIT_FALLBACK;
+    return { status: false };
+  }
+
+  if (layer === 0) {
+    return { 
+      status: true, 
+      data: {
+        course_detail: SANSKRIT_MASTER_DATA.course_detail,
+        tiles: SANSKRIT_MASTER_DATA.tiles
+      }
+    };
+  }
+
+  // Logic for layers (nested folders)
+  const last = state.path[state.path.length - 1] || {};
+  const key = `${layer}_${params.subject_id || last.subject_id || last.id}`;
+  const nestedKey = `${layer}_${params.topic_id || last.topic_id || last.id}`;
+  const list = SANSKRIT_MASTER_DATA.layers[key] || SANSKRIT_MASTER_DATA.layers[nestedKey] || [];
+
+  return { 
+    status: true, 
+    data: list 
+  };
+}
+
+/* FETCHERS */
+async function fetchCourseDetails() {
+  showLoader(true);
+  try {
+    if (IS_SANSKRIT) {
+      try {
+        const data = await fetchSanskritData(0);
+        if (data.status) {
+          courseInfo = data.data.course_detail;
+          
+          // Task: Handle Parent Batch (44743) vs Child Batches (45306/45307)
+          if (COURSE_ID === '44743') {
+             // Create virtual packages for Shemushi and Manika
+             const packages = [
+               { id: '45307', title: 'SHEMUSHI BATCH', thumbnail: 'https://d1xo3otg0k74xn.cloudfront.net/566/admin_v1/bundle_management/course/153063845307_PRO%202027%20BANNER%20%20%282%29.jpg' },
+               { id: '45306', title: 'MANIKA BATCH', thumbnail: 'https://d1xo3otg0k74xn.cloudfront.net/566/admin_v1/bundle_management/course/719128545306_PRO%202027%20BANNER%20%20%281%29.jpg' }
+             ];
+             renderPackages(packages);
+          }
+        } else throw new Error();
+      } catch (e) {
+        console.warn('Using Sanskrit Fallback Data:', e);
+        courseInfo = SANSKRIT_FALLBACK.data.course_detail;
+      }
+      renderHero();
+      renderOverview();
+      renderTabs();
+    } else {
+      const data = await apiPost('https://course.nexttoppers.com/course/course-details', {
+        parent_id: String(PARENT_ID), course_id: String(COURSE_ID), course_code: String(COURSE_ID), is_purchased: 'false'
+      });
+      if (data.success) {
+        const overview = data.data.find(t => t.type === 'overview');
+        const details = overview?.data?.find(d => d.layout_type === 'details');
+        const packages = overview?.data?.find(d => d.layout_type === 'packages');
+        courseInfo = details?.layout_data?.[0] || {};
+        renderHero();
+        renderOverview();
+        renderTabs();
+        if (packages?.layout_data?.length) renderPackages(packages.layout_data);
+      }
+    }
+    // Task: Best/Fast Option - Trigger background crawl for live classes immediately
+    fetchAllLive(true);
+  } catch (e) { showToast('Failed to load course details'); }
+  showLoader(false);
+}
+
+async function fetchContent(folderId = '0') {
+  showLoader(true);
+  
+  const areaId = (state.activeTab === 'videos' ? 'contentArea-videos' : 
+                 (state.activeTab === 'pdfs' ? 'contentArea-pdfs' : 'contentArea'));
+  const area = document.getElementById(areaId);
+  if (area) area.innerHTML = '<div class="state-box"><div class="spin" style="margin:0 auto 20px"></div><div class="state-title">Loading...</div></div>';
+
+  try {
+    if (IS_SANSKRIT) {
+      try {
+        let layer = state.path.length;
+        if (layer === 0) {
+          // Layer 1 fetch - Start from tile
+          let startTileId = '0';
+          let startType = 'content';
+          if (state.activeTab === 'videos') { startTileId = '131574'; startType = 'video'; }
+          else if (state.activeTab === 'pdfs') { startTileId = '130132'; startType = 'pdf'; }
+          
+          const data = await fetchSanskritData(1, { tile_id: startTileId, type: startType });
+          state.contentData = data.data.list || data.data;
+        } else {
+          const last = state.path[state.path.length - 1];
+          const data = await fetchSanskritData(last.layer, {
+            ...last,
+            id: last.id,
+            type: last.type || 'content'
+          });
+          state.contentData = data.data.list || data.data;
+        }
+      } catch (e) {
+        console.warn('Using Sanskrit Fallback Content:', e);
+        state.contentData = SANSKRIT_FALLBACK.data.tiles;
+      }
+      renderSanskritContent();
+    } else {
+      const data = await apiPost('https://course.nexttoppers.com/course/all-content', {
+        parent_id: String(PARENT_ID), course_id: String(COURSE_ID), folder_id: String(folderId), parent_course_id: '0', page: '1', limit: '100'
+      });
+      if (data.success) {
+        state.contentData = data.data;
+        renderContent();
+      }
+    }
+  } catch (e) { showToast('Content failed to load'); }
+  showLoader(false);
+}
+
+/* RENDERERS */
+function renderHero() {
+  if (!courseInfo) return;
+  document.getElementById('courseChip').textContent = '#' + (courseInfo.id || COURSE_ID);
+  document.getElementById('heroTitle').textContent = courseInfo.title || '';
+  
+  // Robust hero image selection
+  const heroImg = courseInfo.thumbnail || courseInfo.desc_header_image || courseInfo.cover_image || '';
+  const heroElem = document.getElementById('heroThumb');
+  const globalPlaceholder = 'https://d2alr3mt323vql.cloudfront.net/0/admin_v1/application_management/clientlogo/3390552566_Group%2018440%20%284%29.png';
+  
+  if (heroImg) {
+    heroElem.src = heroImg;
+    heroElem.classList.remove('branded-placeholder');
+  } else {
+    heroElem.src = globalPlaceholder;
+    heroElem.classList.add('branded-placeholder');
+  }
+  
+  heroElem.onerror = () => {
+    heroElem.src = globalPlaceholder;
+    heroElem.classList.add('branded-placeholder');
+  };
+  
+  let pills = '';
+  if (courseInfo.is_new) pills += `<span class="pill pill-new">${courseInfo.is_new}</span>`;
+  if (courseInfo.is_trending) pills += `<span class="pill pill-trend">Trending</span>`;
+  document.getElementById('heroPills').innerHTML = pills;
+}
+
+function renderOverview() {
+  if (!courseInfo) return;
+  
+  // Use custom description for all Sanskrit batches
+  let description = courseInfo.description || '';
+  if (IS_SANSKRIT) {
+    description = `
+      <ul>
+        <li>We will cover Sanskrit for Class 10th students.</li>
+        <li>This is a Live Interactive Course, and the complete syllabus will be covered by October. However, you will have access to the course until your board exams.</li>
+        <li>Live Doubt-Solving Sessions will be conducted as part of this course.</li>
+        <li>Class Recordings will be available immediately after the live sessions on the Master Sahab app.</li>
+        <li>Class Notes will be provided in PDF format for each session on the Master Sahab app.</li>
+        <li>Frequent Tests will be conducted to assess your progress after completing specific portions of the syllabus.</li>
+        <li>The entire course will remain accessible to you until your board exams in 2027.</li>
+        <li>Classes start in MAY 2026.</li>
+        <li>This course price is for complete batch (not monthly)</li>
+        <li>This batch is non-refundable and non-transferable</li>
+      </ul>
+    `;
+  }
+  
+  document.getElementById('courseDesc').innerHTML = description;
+  const start = courseInfo.start_date ? new Date(courseInfo.start_date * 1000).toLocaleDateString() : '—';
+  const end = courseInfo.end_date ? new Date(courseInfo.end_date * 1000).toLocaleDateString() : '—';
+  document.getElementById('courseDetails').innerHTML = `
+    <div class="ic-row"><span class="ic-lbl">Batch Starts</span><span class="ic-val">${start}</span></div>
+    <div class="ic-row"><span class="ic-lbl">Validity till</span><span class="ic-val">${end}</span></div>
+    <div class="ic-row"><span class="ic-lbl">Course Fee</span><span class="ic-val">₹${courseInfo.offer_price || courseInfo.course_sp || courseInfo.mrp}</span></div>
+  `;
+}
+
+function renderPackages(packages) {
+  const container = document.getElementById('packagesSection');
+  const area = document.getElementById('packagesArea');
+  area.innerHTML = packages.map(pkg => `
+    <div class="pkg-card" onclick="window.location.href='course_dynamic.html?course_id=${pkg.id}'">
+      <div class="pkg-thumb-wrap">
+        <img class="pkg-thumb" src="${pkg.thumbnail}" alt="" onerror="this.src='https://via.placeholder.com/400x225/111319/ff7e21?text=Nexttoppers'">
+      </div>
+      <div class="pkg-body"><div class="pkg-title">${pkg.title}</div></div>
+    </div>
+  `).join('');
+  container.style.display = 'block';
+}
+
+function renderContent() {
+  const data = state.contentData;
+  const area = document.getElementById('contentArea');
+  if (!data?.length) { area.innerHTML = `<div class="state-box"><div class="state-ico">📁</div><div class="state-title">No content available</div></div>`; return; }
+
+  // Task: Filter content for root Sanskrit Pro Batch (44743)
+  let filteredData = data;
+  if (COURSE_ID === '44743' && state.path.length === 0) {
+      filteredData = data.filter(i => i.type === 'folder' || i.type === 'package');
+  }
+
+  let html = '';
+  const folders = filteredData.filter(i => i.type === 'folder');
+  const files = filteredData.filter(i => i.type === 'file');
+  const tests = filteredData.filter(i => i.type === 'test');
+
+  if (folders.length) {
+    html += `<div class="sec-label">Course Chapters</div><div class="folder-grid">`;
+    folders.forEach(f => {
+      const id = f.entity_id || f.id;
+      html += `
+        <div class="folder-item" onclick="openFolder(${id},'${f.title}')">
+          <div class="fi-ico">📁</div>
+          <div class="fi-name">${f.title}</div>
+          <div class="fi-arr">→</div>
+        </div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (tests.length) {
+    html += `<div class="sec-label" style="margin-top:32px">Online Tests</div><div class="pkg-grid">`;
+    tests.forEach(item => {
+      const d = item.data || {};
+      const now = Math.floor(Date.now() / 1000);
+      const isExpired = d.schedule_end_time && now > d.schedule_end_time;
+      const startDate = d.schedule_start_time ? new Date(d.schedule_start_time * 1000).toLocaleDateString() : 'N/A';
+      const endDate = d.schedule_end_time ? new Date(d.schedule_end_time * 1000).toLocaleDateString() : 'N/A';
+      const testId = d.id || item.entity_id;
+      const releaseTime = d.result_specific_time || 0;
+      
+      const isCompleted = !!localStorage.getItem(`test_attempt_${testId}`);
+      
+      let buttonsHtml = '';
+      if (isCompleted) {
+        buttonsHtml = `
+          <div style="display:flex; gap:8px; margin-top:12px;">
+            <button class="cta-btn" style="flex:1; padding:8px; font-size:0.8rem; background:rgba(0,255,136,0.1); color:#00ff88; border:1px solid rgba(0,255,136,0.3); box-shadow:none;" onclick="handleTest('${testId}', ${releaseTime})">RESULT</button>
+            <button class="cta-btn" style="flex:1; padding:8px; font-size:0.8rem; background:rgba(255,126,33,0.1); color:var(--accent); border:1px solid rgba(255,126,33,0.3); box-shadow:none;" onclick="handleTest('${testId}', ${releaseTime}, 'retest')">RETEST</button>
+          </div>
+        `;
+      } else {
+        buttonsHtml = `
+          <button class="cta-btn" style="margin-top:12px; font-size:0.9rem; padding:8px; ${isExpired ? 'opacity:0.5; cursor:not-allowed;' : ''}" ${isExpired ? 'disabled' : ''} onclick="${isExpired ? '' : `handleTest('${testId}', ${releaseTime})`}">
+            ${isExpired ? 'EXPIRED' : 'START TEST →'}
+          </button>
+        `;
+      }
+      
+      html += `
+        <div class="pkg-card">
+          <div class="pkg-thumb-wrap" onclick="${isExpired && !isCompleted ? '' : `handleTest('${testId}', ${releaseTime})`}">
+            <img class="pkg-thumb test-thumb" src="https://nexttoppers.com/images/test_icon.png" alt="Test">
+            ${isExpired ? '<div class="live-indicator" style="background:#ff4d00; position:absolute; top:8px; left:8px; color:white; font-size:0.6rem; padding:4px 8px; border-radius:4px;">EXPIRED</div>' : ''}
+            ${isCompleted ? '<div class="live-indicator" style="background:#00ff88; color:#05070a; position:absolute; top:8px; right:8px; font-size:0.6rem; padding:4px 8px; border-radius:4px;">COMPLETED</div>' : ''}
+          </div>
+          <div class="pkg-body">
+            <div class="pkg-title">${item.title}</div>
+            <div class="vi-meta" style="margin-top:8px; display:flex; flex-direction:column; gap:4px; font-size:0.75rem; color:var(--text-secondary);">
+              <span>📅 Start: ${startDate}</span>
+              <span>🏁 End: ${endDate}</span>
+            </div>
+            ${isExpired && !isCompleted ? '<div style="color:#ff4d00; font-size:0.7rem; margin-top:8px; font-weight:800;">TEST EXPIRED</div>' : ''}
+            ${buttonsHtml}
+          </div>
+        </div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (files.length) {
+    html += `<div class="sec-label" style="margin-top:32px">Videos & Documents</div><div class="video-list">`;
+    files.forEach(item => {
+      const d = item.data || {};
+      const isPdf = d.file_type === 1;
+      html += `
+        <div class="video-item" onclick='handleItem(${JSON.stringify(item).replace(/'/g,"&apos;")})'>
+          <img class="vi-thumb" src="${d.thumbnail || item.thumbnail || ''}" onerror="this.src='https://via.placeholder.com/160x90/111319/ff7e21?text=Preview'">
+          <div class="vi-body">
+            <div class="vi-name">${item.title}</div>
+            <div class="vi-meta">
+              <span class="vbadge ${isPdf ? 'vb-pdf' : 'vb-video'}">${isPdf ? 'PDF' : 'VIDEO'}</span>
+              ${d.duration && d.duration !== '0' ? `<span class="vi-dur">${formatTime(d.duration)}</span>` : ''}
+            </div>
+          </div>
+          <div class="vi-act">${isPdf ? '↓' : '▶'}</div>
+        </div>`;
+    });
+    html += `</div>`;
+  }
+  area.innerHTML = html;
+  renderBreadcrumb();
+}
+
+function handleTest(testId, releaseTime, action) {
+  const isCompleted = !!localStorage.getItem(`test_attempt_${testId}`);
+
+  if (action === 'retest' && isCompleted) {
+    if (confirm('Are you sure you want to retest? Your previous attempt will be cleared.')) {
+      localStorage.removeItem(`test_attempt_${testId}`);
+      window.open(`test.html?test_id=${testId}`, '_blank');
+    }
+    return;
+  }
+
+  if (isCompleted && releaseTime) {
+    const now = Math.floor(Date.now() / 1000);
+    if (now < Number(releaseTime)) {
+      const releaseDate = new Date(Number(releaseTime) * 1000);
+      const timeStr = releaseDate.toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+      alert(`RESULT ON: ${timeStr}`);
+      return;
+    }
+  }
+  window.open(`test.html?test_id=${testId}`, '_blank');
+}
+
+function renderSanskritContent() {
+  const content = state.contentData;
+  const areaId = (state.activeTab === 'videos' ? 'contentArea-videos' : 
+                 (state.activeTab === 'pdfs' ? 'contentArea-pdfs' : 'contentArea'));
+  const area = document.getElementById(areaId);
+  if (!content || !area) { 
+    if (area) area.innerHTML = `<div class="state-box"><div class="state-ico">📁</div><div class="state-title">No Sanskrit content available</div></div>`; 
+    return; 
+  }
+
+  let html = '';
+  // Nested: list of items
+  let list = Array.isArray(content) ? content : (content.list || []);
+
+  // Task: Filter content for root Sanskrit Pro Batch (44743)
+  if (COURSE_ID === '44743' && state.path.length === 0) {
+      list = list.filter(item => {
+          const title = (item.title || item.tile_name || '').toLowerCase();
+          return title.includes('content') || title.includes('batch') || item.type === 'folder';
+      });
+  }
+
+  if (!list.length) { area.innerHTML = `<div class="state-box"><div class="state-ico">📁</div><div class="state-title">This folder is empty</div></div>`; return; }
+  
+  // Task: Filter content based on active tab for Sanskrit
+  if (IS_SANSKRIT && state.path.length > 0) {
+    list = list.filter(item => {
+      const isFile = (item.file_type && item.file_type !== '0') || item.type === 'file' || item.type === 'test';
+      if (!isFile) return true; // Always show folders
+      
+      if (state.activeTab === 'videos') return item.file_type === '3';
+      if (state.activeTab === 'pdfs') return item.file_type === '1';
+      return true;
+    });
+  }
+
+  if (!list.length) { area.innerHTML = `<div class="state-box"><div class="state-ico">📁</div><div class="state-title">No ${state.activeTab} here</div></div>`; return; }
+
+  html += `<div class="pkg-grid">`;
+  list.forEach(item => {
+    // User Task: Use specific thumbnails for Sanskrit files
+    let thumb = item.image_icon || item.thumbnail_url || item.thumbnail || item.image || '';
+    const isFile = (item.file_type && item.file_type !== '0') || item.type === 'file';
+    const isTest = item.type === 'test';
+    
+    if (IS_SANSKRIT && isFile) {
+      if (item.file_type === '3') thumb = 'Sanskrit Thumbnail/video_thumbnail.png';
+      else if (item.file_type === '1') thumb = 'Sanskrit Thumbnail/PDF_thumbnail.png';
+    }
+
+    if (isTest) thumb = 'https://nexttoppers.com/images/test_icon.png';
+
+    const globalPlaceholder = 'https://d2alr3mt323vql.cloudfront.net/0/admin_v1/application_management/clientlogo/3390552566_Group%2018440%20%284%29.png';
+    const finalThumb = thumb || globalPlaceholder;
+    const isBranded = !thumb; // Only use centering logic for the branded logo fallback
+    
+    if (isTest) {
+        const d = item.data || {};
+        const testId = d.id || item.entity_id;
+        const releaseTime = d.result_specific_time || 0;
+        const now = Math.floor(Date.now() / 1000);
+        const isExpired = d.schedule_end_time && now > d.schedule_end_time;
+        
+        const isCompleted = !!localStorage.getItem(`test_attempt_${testId}`);
+        
+        let buttonsHtml = '';
+        if (isCompleted) {
+          buttonsHtml = `
+            <div style="display:flex; gap:8px; margin-top:12px;">
+              <button class="cta-btn" style="flex:1; padding:8px; font-size:0.8rem; background:rgba(0,255,136,0.1); color:#00ff88; border:1px solid rgba(0,255,136,0.3); box-shadow:none;" onclick="handleTest('${testId}', ${releaseTime})">RESULT</button>
+              <button class="cta-btn" style="flex:1; padding:8px; font-size:0.8rem; background:rgba(255,126,33,0.1); color:var(--accent); border:1px solid rgba(255,126,33,0.3); box-shadow:none;" onclick="handleTest('${testId}', ${releaseTime})">RETEST</button>
+            </div>
+          `;
+        } else {
+          buttonsHtml = `
+            <button class="cta-btn" style="margin-top:12px; font-size:0.9rem; padding:8px; ${isExpired ? 'opacity:0.5; cursor:not-allowed;' : ''}" ${isExpired ? 'disabled' : ''} onclick="${isExpired ? '' : `handleTest('${testId}', ${releaseTime})`}">
+              ${isExpired ? 'EXPIRED' : 'START TEST →'}
+            </button>
+          `;
+        }
+        
+        html += `
+          <div class="pkg-card">
+            <div class="pkg-thumb-wrap" onclick="${isExpired && !isCompleted ? '' : `handleTest('${testId}', ${releaseTime})`}">
+              <img class="pkg-thumb test-thumb" src="${finalThumb}" alt="Test">
+              ${isExpired ? '<div class="live-indicator" style="background:#ff4d00; position:absolute; top:8px; left:8px; color:white; font-size:0.6rem; padding:4px 8px; border-radius:4px;">EXPIRED</div>' : ''}
+              ${isCompleted ? '<div class="live-indicator" style="background:#00ff88; color:#05070a; position:absolute; top:8px; right:8px; font-size:0.6rem; padding:4px 8px; border-radius:4px;">COMPLETED</div>' : ''}
+            </div>
+            <div class="pkg-body">
+              <div class="pkg-title">${item.title}</div>
+              ${isExpired && !isCompleted ? '<div style="color:#ff4d00; font-size:0.7rem; margin-top:8px; font-weight:800;">TEST EXPIRED</div>' : ''}
+              ${buttonsHtml}
+            </div>
+          </div>`;
+    } else if (!isFile) {
+      // It's a folder/subject/topic
+      const last = state.path[state.path.length-1] || {};
+      const nextLayer = (last.layer || 1) + 1;
+      const newItem = { 
+        ...item, 
+        layer: nextLayer, 
+        subject_id: item.l1_id || item.subject_id || last.subject_id || item.id,
+        topic_id: item.l2_id || item.topic_id || item.id,
+        tile_id: item.tile_id || last.tile_id
+      };
+      const newItemJson = JSON.stringify(newItem).replace(/'/g,"&apos;");
+      html += `
+        <div class="pkg-card" onclick='handleSanskritItem(${newItemJson})'>
+          <div class="pkg-thumb-wrap">
+            <img class="pkg-thumb ${isBranded ? 'branded-placeholder' : ''}" 
+                 src="${finalThumb}" 
+                 onerror="this.src='${globalPlaceholder}'; this.classList.add('branded-placeholder')">
+            <div class="pkg-count">Folder</div>
+          </div>
+          <div class="pkg-body">
+            <div class="pkg-title">${item.title}</div>
+          </div>
+        </div>`;
+    } else {
+      // It's a file
+      const itemJson = JSON.stringify(item).replace(/'/g,"&apos;");
+      const icon = item.file_type === '3' ? '🎬' : '📄';
+      const isLiveNow = item.is_live == 1;
+      const isScheduled = item.video_type == 8;
+
+      let badgeHtml = `<div class="pkg-badge">${icon} ${item.file_type === '3' ? 'Video' : 'PDF'}</div>`;
+      if (isLiveNow) {
+        badgeHtml = `<div class="live-indicator" style="position:absolute; top:8px; left:8px;"><div class="live-dot"></div>LIVE</div>`;
+      } else if (isScheduled) {
+        badgeHtml = `<div class="live-indicator" style="position:absolute; top:8px; left:8px; background:#ff7e21"><div class="live-dot" style="animation:none"></div>SCHEDULED</div>`;
+      }
+
+      html += `
+        <div class="pkg-card" onclick='handleSanskritItem(${itemJson})'>
+          <div class="pkg-thumb-wrap">
+            <img class="pkg-thumb ${isBranded ? 'branded-placeholder' : ''}" 
+                 src="${finalThumb}" 
+                 onerror="this.src='${globalPlaceholder}'; this.classList.add('branded-placeholder')">
+            ${badgeHtml}
+          </div>
+          <div class="pkg-body">
+            <div class="pkg-title">${item.title}</div>
+            <div class="vi-meta" style="margin-top:8px">
+              <span class="vi-dur">${item.video_duration ? formatTime(item.video_duration) : 'Document'}</span>
+            </div>
+          </div>
+        </div>`;
+    }
+  });
+  html += `</div>`;
+  
+  area.innerHTML = html;
+  renderBreadcrumb();
+}
+
+function handleSanskritItem(item) {
+  if (item.file_type && item.file_type !== '0') {
+    // Open file
+    if (item.file_type === '3') {
+       // Task: Follow direct m3u8 link not rolexcoderz
+       const videoUrl = item.file_url || '';
+       const isLive = item.is_live || 0;
+       const videoType = item.video_type || 0;
+       window.open(`player.html?content_id=${item.id}&course_id=45307&title=${encodeURIComponent(item.title)}&video_url=${encodeURIComponent(videoUrl)}&is_live=${isLive}&video_type=${videoType}`, '_blank');
+    } else {
+       // PDF - Open in a new tab
+       window.open(item.file_url || item.pdf_view_url || '#', '_blank');
+    }
+  } else {
+    // Navigate into folder
+    const nextLayer = (item.layer || state.path.length + 1);
+    
+    // Ensure all necessary IDs are carried forward for the next get_master_data call
+    const newItem = {
+      ...item,
+      layer: nextLayer,
+      subject_id: item.subject_id || item.id,
+      parent_id: PARENT_ID || '44743'
+    };
+    
+    state.path.push(newItem);
+    fetchContent();
+  }
+}
+
+/* UTILS */
+function formatDateTime(ts) {
+  if (!ts || ts === '0') return '';
+  const date = new Date(Number(ts) * 1000);
+  if (isNaN(date.getTime())) return '';
+  return date.toLocaleString('en-IN', { 
+    day: 'numeric', 
+    month: 'short', 
+    hour: 'numeric', 
+    minute: '2-digit', 
+    hour12: true 
+  });
+}
+
+function formatTime(s) {
+  if (!s || s === '0') return '';
+  if (typeof s === 'string' && s.includes(':')) return s;
+  const seconds = Number(s);
+  if (isNaN(seconds) || seconds < 0) return s;
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const sc = Math.floor(seconds % 60);
+  if (h > 0) return `${h}:${m.toString().padStart(2, '0')}:${sc.toString().padStart(2, '0')}`;
+  return `${m}:${sc.toString().padStart(2, '0')}`;
+}
+
+function renderBreadcrumb() {
+  const bcId = (state.activeTab === 'videos' ? 'breadcrumb-videos' : 
+               (state.activeTab === 'pdfs' ? 'breadcrumb-pdfs' : 'breadcrumb'));
+  const bc = document.getElementById(bcId);
+  if (!bc) return;
+  
+  const rootLabel = (state.activeTab === 'videos' ? 'Videos' : 
+                    (state.activeTab === 'pdfs' ? 'PDFs' : 'Course'));
+                    
+  let html = `<span class="bc-link" onclick="goToRoot()">${rootLabel}</span>`;
+  state.path.forEach((p, i) => {
+    html += ` <span>/</span> `;
+    if (i === state.path.length - 1) html += `<span class="bc-cur">${p.title}</span>`;
+    else html += `<span class="bc-link" onclick="goToLevel(${i})">${p.title}</span>`;
+  });
+  bc.innerHTML = html;
+  document.getElementById('backLabel').textContent = state.path.length ? state.path[state.path.length-1].title : 'Home';
+}
+
+function openFolder(id, title) { state.path.push({ id, title }); fetchContent(id); }
+function goToRoot() { state.path = []; fetchContent(); }
+function goToLevel(i) { state.path = state.path.slice(0, i + 1); fetchContent(state.path[i].id); }
+function goBack() { if (state.path.length) { state.path.pop(); fetchContent(state.path.length ? state.path[state.path.length-1].id : '0'); } else window.location.href = 'index.html'; }
+
+async function handleItem(item) {
+  const d = item.data || {};
+  const id = item.entity_id || d.id || item.id;
+  const releaseTime = d.result_specific_time || 0;
+  
+  if (d.file_type === 2) { 
+    window.open(`player.html?content_id=${id}&course_id=${COURSE_ID}&title=${encodeURIComponent(item.title)}&result_specific_time=${releaseTime}`, '_blank'); 
+    return; 
+  }
+
+  // Pre-open window to bypass popup blockers in async flow
+  const win = window.open('', '_blank');
+  win.document.write('<div style="background:#05070a;color:#ff7e21;height:100vh;display:flex;align-items:center;justify-content:center;font-family:sans-serif;">Loading Document...</div>');
+
+  showLoader(true);
+  try {
+    const res = await API.post('content_details', {
+      action: 'content_details',
+      content_id: id,
+      course_id: COURSE_ID
+    }, 'nexttoppers-extra');
+
+    if (res.type === 'pdf' && res.url) {
+      win.location.href = res.url;
+    } else {
+      win.close();
+      showToast(res.error || 'Unable to open file');
+    }
+  } catch (e) { 
+    win.close();
+    showToast('Network error'); 
+  }
+  showLoader(false);
+}
+
+function handleStartLearning() {
+  if (COURSE_ID === '44743') {
+    const pkgSection = document.getElementById('packagesSection');
+    if (pkgSection) {
+      pkgSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  } else {
+    switchTab('content');
+  }
+}
+
+function switchTab(name) {
+  // Reset path if switching between different content types
+  if (state.activeTab !== name && (name === 'content' || name === 'videos' || name === 'pdfs')) {
+      state.path = [];
+      state.contentData = null;
+  }
+  
+  state.activeTab = name;
+  
+  document.querySelectorAll('.tab-btn').forEach(b => {
+      const onclickAttr = b.getAttribute('onclick');
+      b.classList.toggle('active', onclickAttr && onclickAttr.includes(`'${name}'`));
+  });
+  
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  const targetPane = document.getElementById('tab-' + name);
+  if (targetPane) targetPane.classList.add('active');
+  
+  if ((name === 'content' || name === 'videos' || name === 'pdfs') && !state.contentData) fetchContent();
+  if (name === 'live') {
+    if (state.liveData) renderLive();
+    else if (!state.isFetchingLive) fetchAllLive();
+    else if (state.isFetchingLive) showLoader(true, 'Loading live classes…');
+  }
+}
+
+async function fetchAllLive(isBackground = false) {
+  if (state.isFetchingLive || state.liveData) return;
+  state.isFetchingLive = true;
+  
+  if (!isBackground && state.activeTab === 'live') showLoader(true, 'Loading live classes…');
+  
+  const liveMap = new Map();
+  const visitedFolders = new Set();
+  
+  const updateUI = () => {
+    state.liveData = Array.from(liveMap.values());
+    if (state.activeTab === 'live') {
+      renderLive();
+      showLoader(false);
+    }
+  };
+
+  try {
+    if (IS_SANSKRIT) {
+      async function fetchSanskritRecursive(layer, params) {
+        const key = `${layer}_${params.topic_id || params.subject_id || params.id || 'root'}`;
+        if (visitedFolders.has(key)) return;
+        visitedFolders.add(key);
+
+        const res = await fetchSanskritData(layer, params);
+        if (res.status && res.data) {
+          const list = Array.isArray(res.data) ? res.data : (res.data.list || []);
+          const promises = [];
+          for (const item of list) {
+            const isFile = (item.file_type && item.file_type !== '0') || item.type === 'file';
+            const isLive = item.is_live == 1 || item.video_type == '8';
+            
+            if (isFile) {
+              if (isLive) {
+                const id = item.id || item.entity_id || (item.data && item.data.id);
+                if (id && !liveMap.has(id)) {
+                  liveMap.set(id, item);
+                  updateUI();
+                }
+              }
+            } else {
+              const nextLayer = (item.layer || layer + 1);
+              promises.push(fetchSanskritRecursive(nextLayer, {
+                ...item,
+                layer: nextLayer,
+                subject_id: item.l1_id || item.subject_id || params.subject_id || item.id,
+                topic_id: item.l2_id || item.topic_id || item.id,
+                tile_id: item.tile_id || params.tile_id
+              }));
+            }
+          }
+          await Promise.all(promises);
+        }
+      }
+      
+      await Promise.all([
+        fetchSanskritRecursive(1, { tile_id: '0', type: 'content' }),
+        fetchSanskritRecursive(1, { tile_id: '131574', type: 'video' })
+      ]);
+      
+    } else {
+      async function fetchRecursive(folderId) {
+        if (visitedFolders.has(folderId)) return;
+        visitedFolders.add(folderId);
+        const data = await apiPost('all-content', {
+          parent_id: String(PARENT_ID), course_id: String(COURSE_ID), folder_id: String(folderId), parent_course_id: '0', page: '1', limit: '100', keyword: ''
+        });
+        if (data.success && data.data) {
+          const promises = [];
+          for (const item of data.data) {
+            const isLive = item.data?.is_live == 1 || item.data?.video_type == 8;
+            if (item.type === 'file' && isLive) {
+              const id = item.id || item.entity_id || (item.data && item.data.id);
+              if (id && !liveMap.has(id)) {
+                liveMap.set(id, item);
+                updateUI();
+              }
+            } else if (item.type === 'folder') {
+              promises.push(fetchRecursive(item.entity_id));
+            }
+          }
+          await Promise.all(promises);
+        }
+      }
+      await fetchRecursive('0');
+    }
+    
+    state.liveData = Array.from(liveMap.values());
+    if (state.activeTab === 'live') renderLive();
+  } catch (e) { 
+    console.error('Live fetch error:', e);
+    if (!isBackground) showToast('Failed to load live classes'); 
+  } finally {
+    state.isFetchingLive = false;
+    showLoader(false);
+  }
+}
+
+function renderLive() {
+  const area = document.getElementById('liveArea');
+  if (!state.liveData?.length) { area.innerHTML = `<div class="state-box"><div class="state-ico">📡</div><div class="state-title">No live classes scheduled</div></div>`; return; }
+  
+  area.innerHTML = `<div class="live-grid">` + state.liveData.map(cls => {
+    const d = cls.data || cls; // Handle both nested and flat structures
+    const isLiveNow = d.is_live == 1;
+    const isScheduled = d.video_type == 8;
+    
+    let thumb = d.thumbnail || cls.thumbnail || d.image_icon || 'https://admin.nexttoppers.com/public/assets/dist/img/new-image/videoThumbnailImg.png';
+    if (IS_SANSKRIT && (d.file_type === '3' || d.video_type == 8 || isLiveNow)) {
+      thumb = 'Sanskrit Thumbnail/video_thumbnail.png';
+    }
+
+    const title = cls.title || d.title;
+    
+    let indicatorHtml = '';
+    if (isLiveNow) {
+      indicatorHtml = '<div class="live-indicator"><div class="live-dot"></div>LIVE</div>';
+    } else if (isScheduled) {
+      indicatorHtml = '<div class="live-indicator" style="background:#ff7e21"><div class="live-dot" style="animation:none"></div>SCHEDULED</div>';
+    }
+
+    const onClickHandler = IS_SANSKRIT ? `handleSanskritItem(${JSON.stringify(d).replace(/'/g,"&apos;")})` : `handleItem(${JSON.stringify(cls).replace(/'/g,"&apos;")})`;
+
+    return `
+      <div class="live-card" onclick='${onClickHandler}'>
+        <div class="live-thumb-wrap">
+          <img class="live-thumb" src="${thumb}" onerror="this.src='https://via.placeholder.com/160x90/111319/ff7e21?text=Live'">
+          ${indicatorHtml}
+        </div>
+        <div class="live-info">
+          <div class="live-title">${title}</div>
+          <div class="live-meta">${d.duration && d.duration !== '0' ? `⏱ ${formatTime(d.duration)}` : ''} • ${isLiveNow ? 'Live Now' : (isScheduled && d.start_date ? `📅 ${formatDateTime(d.start_date)}` : (isScheduled ? 'Scheduled' : 'Upcoming'))}</div>
+          <div class="live-desc">${d.description || 'Join the live interactive session.'}</div>
+        </div>
+        <button class="live-btn">${isLiveNow ? 'Join Now' : 'View'}</button>
+      </div>`;
+  }).join('') + `</div>`;
+}
+
+function showLoader(v, txt) { 
+  if (txt) document.getElementById('loaderTxt').textContent = txt;
+  document.getElementById('loadingOverlay').classList.toggle('show', v); 
+}
+function showToast(m) { const t = document.getElementById('toast'); t.textContent = m; t.className = 'toast show'; setTimeout(() => t.className = 'toast', 3000); }
+function closePlayer() { document.getElementById('playerOverlay').classList.remove('show'); document.getElementById('playerBox').innerHTML = ''; }
+
+fetchCourseDetails();
+</script>
+</body>
+</html>

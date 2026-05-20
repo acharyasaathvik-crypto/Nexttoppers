@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexttoppers · Pick Your Batch</title>
+<meta name="description" content="Access premium educational courses and batches at Nexttoppers. Start your learning journey today with our comprehensive curriculum.">
+<meta name="keywords" content="Nexttoppers, education, online courses, batches, learning, Sanskrit">
+
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="/">
+<meta property="og:title" content="Nexttoppers · Pick Your Batch">
+<meta property="og:description" content="Access premium educational courses and batches at Nexttoppers.">
+<meta property="og:image" content="https://d1xo3otg0k74xn.cloudfront.net/566/admin_v1/bundle_management/course/153063845307_PRO%202027%20BANNER%20%20%282%29.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="/">
+<meta property="twitter:title" content="Nexttoppers · Pick Your Batch">
+<meta property="twitter:description" content="Access premium educational courses and batches at Nexttoppers.">
+<meta property="twitter:image" content="https://d1xo3otg0k74xn.cloudfront.net/566/admin_v1/bundle_management/course/153063845307_PRO%202027%20BANNER%20%20%282%29.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Teko:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #05070a;
+  --card-bg: #111319;
+  --accent: #ff7e21;
+  --accent-glow: rgba(255, 126, 33, 0.4);
+  --text-primary: #ffffff;
+  --text-secondary: #888b94;
+  --text-cream: #f1f1e6;
+  --border: rgba(255, 255, 255, 0.06);
+  --grid-color: rgba(255, 126, 33, 0.03);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* BACKGROUND ATMOSPHERE */
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.glow-overlay {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 60vh;
+  background: radial-gradient(circle, rgba(255, 126, 33, 0.08) 0%, transparent 70%);
+  filter: blur(80px);
+}
+
+canvas#fireCanvas {
+  position: absolute;
+  inset: 0;
+}
+
+/* HEADER */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(5, 7, 10, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #ff7e21, #ff4d00);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Teko', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: white;
+  box-shadow: 0 0 20px rgba(255, 77, 0, 0.3);
+}
+
+.brand-name {
+  font-family: 'Teko', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+/* HERO */
+.hero {
+  padding: 80px 20px 40px;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(255, 126, 33, 0.05);
+  border: 1px solid rgba(255, 126, 33, 0.2);
+  border-radius: 100px;
+  margin-bottom: 30px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+.badge-pill span {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-family: 'Teko', sans-serif;
+  font-size: clamp(4rem, 10vw, 7.5rem);
+  line-height: 0.85;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.hero h1 .pick-your {
+  color: var(--text-cream);
+  display: block;
+}
+
+.hero h1 .batch-start {
+  background: linear-gradient(to bottom, #ff983d, #ff6a00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+}
+
+.hero-subtitle .highlight {
+  color: var(--accent);
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 16px;
+  background: var(--border);
+}
+
+.stat-icon {
+  font-size: 1rem;
+}
+
+/* GRID */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 100px;
+}
+
+/* SEARCH & FILTER */
+.filter-section {
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  padding: 0 20px;
+}
+
+.search-container {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.search-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 126, 33, 0.2);
+  border-radius: 100px;
+  padding: 18px 30px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: rgba(255, 126, 33, 0.6);
+  background: rgba(255, 126, 33, 0.08);
+  box-shadow: 0 0 30px rgba(255, 126, 33, 0.15);
+}
+
+.search-input::placeholder {
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.filter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.filter-tag {
+  padding: 8px 20px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filter-tag:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+}
+
+.filter-tag.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 15px rgba(255, 126, 33, 0.15);
+}
+
+.filter-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.filter-status .count-num {
+  color: var(--accent);
+}
+
+.filter-status .az-order {
+  color: var(--text-secondary);
+}
+
+/* SEPARATOR */
+.separator-wrap {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.sep-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.3;
+}
+
+.sep-stars {
+  display: flex;
+  gap: 12px;
+  color: var(--accent);
+  font-size: 0.8rem;
+  text-shadow: 0 0 10px var(--accent);
+}
+
+/* CARD */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 30px;
+}
+
+/* CARD */
+.course-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.course-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(255, 126, 33, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.card-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s;
+}
+
+.course-card:hover .card-image {
+  transform: scale(1.1);
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 60%, var(--card-bg));
+}
+
+.card-content {
+  padding: 24px;
+}
+
+.card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(255, 126, 33, 0.08);
+  border: 1px solid rgba(255, 126, 33, 0.15);
+  border-radius: 100px;
+  margin-bottom: 16px;
+}
+
+.card-badge .dot {
+  width: 4px;
+  height: 4px;
+}
+
+.card-badge span {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card-badge.old-badge {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border);
+}
+
+.card-badge.old-badge span {
+  color: var(--text-secondary);
+}
+
+.badge-container {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-family: 'Teko', sans-serif;
+  font-size: 1.8rem;
+  line-height: 1.1;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.meta-icon {
+  opacity: 0.5;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.start-learning {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.arrow-btn {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  transition: all 0.3s;
+}
+
+.course-card:hover .arrow-btn {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.branded-placeholder {
+  object-fit: contain !important;
+  padding: 30px;
+  background: rgba(255,255,255,0.02);
+}
+
+/* FOOTER */
+footer {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.footer-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.footer-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0.4;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.footer-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* LOADING */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: opacity 0.5s;
+}
+
+.loading-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255, 126, 33, 0.1);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  header { padding: 12px 20px; }
+  .hero { padding: 60px 16px 40px; }
+  .hero h1 { font-size: 2.8rem; line-height: 1.1; }
+  .hero h1 .pick-your { font-size: 1.6rem; }
+  .hero-stats { flex-direction: row; flex-wrap: wrap; gap: 12px; font-size: 0.7rem; }
+  .stat-divider { height: 12px; }
+  .grid { grid-template-columns: 1fr; gap: 24px; padding: 0 16px; }
+  .container { padding-bottom: 80px; }
+  .filter-tags { justify-content: flex-start; gap: 8px; padding-bottom: 10px; }
+  .filter-tag { padding: 10px 18px; font-size: 0.7rem; min-height: 44px; white-space: nowrap; }
+  .search-input { padding: 14px 24px; font-size: 0.9rem; }
+  .course-card { max-width: 100%; border-radius: 20px; }
+  .card-title { font-size: 1.6rem; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 2.2rem; }
+  .hero h1 .pick-your { font-size: 1.2rem; }
+  .brand-name { font-size: 1.2rem; }
+  .stat-divider { display: none; }
+  .hero-stats { justify-content: center; gap: 16px; }
+  .search-input { padding: 12px 20px; }
+  .card-title { font-size: 1.4rem; }
+  .card-content { padding: 20px; }
+  .btn-primary { width: 100%; justify-content: center; min-height: 48px; }
+}
+</style>
+</head>
+<body>
+
+<div class="atmosphere">
+  <div class="grid-overlay"></div>
+  <div class="glow-overlay"></div>
+  <canvas id="fireCanvas"></canvas>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="footer-text">Igniting Batches...</div>
+</div>
+
+<header>
+  <a href="#" class="nav-brand">
+    <div class="brand-logo">NT</div>
+    <span class="brand-name">Nexttoppers</span>
+  </a>
+</header>
+
+<section class="hero">
+  <div class="badge-pill">
+    <div class="dot"></div>
+    <span>Your Batches</span>
+  </div>
+  <h1>
+    <span class="pick-your">Pick Your</span>
+    <span class="batch-start">Batch & Start</span>
+  </h1>
+  <p class="hero-subtitle">
+    Sabse pehle batch choose karo, <span class="highlight">phir learning shuru</span>
+  </p>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-icon">🔥</span>
+      <span id="batchCount">Loading...</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-icon">⚡</span>
+      <span>Live Now</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-icon">🎯</span>
+      <span>Self-Paced</span>
+    </div>
+  </div>
+</section>
+
+<div class="filter-section">
+  <div class="search-container">
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍  BATCH DHUNDO...">
+  </div>
+  
+  <div class="filter-tags" id="filterTags">
+    <button class="filter-tag active" data-filter="all">All</button>
+    <!-- Filter tags will be dynamically generated -->
+  </div>
+
+  <div class="filter-status">
+    <div id="resultsCount">Showing <span class="count-num">0</span> of <span class="count-num">0</span> Batches</div>
+    <div class="az-order">A-Z Order</div>
+  </div>
+
+  <div class="separator-wrap">
+    <div class="sep-line"></div>
+    <div class="sep-stars">✦ ✦</div>
+    <div class="sep-line"></div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="grid" id="courseGrid">
+    <!-- Cards populated by JS -->
+  </div>
+</div>
+
+<footer>
+  <div class="footer-dots">
+    <div class="footer-dot"></div>
+    <div class="footer-dot"></div>
+    <div class="footer-dot"></div>
+  </div>
+  <div class="footer-text">Nexttoppers — Work Hard, Dream Big ✦ Never Give Up</div>
+  <div class="footer-text" style="margin-top: 10px; font-size: 0.65rem; opacity: 0.7;">
+    Developed by <span style="color: var(--accent);">SAATHVIK ©</span>
+  </div>
+</footer>
+
+<script src="api-helper.js"></script>
+<script>
+/* FIRE PARTICLES ANIMATION */
+const canvas = document.getElementById('fireCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+window.addEventListener('resize', resize);
+resize();
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = canvas.height + Math.random() * 100;
+    this.size = Math.random() * 2 + 1;
+    this.speedY = Math.random() * 1 + 0.5;
+    this.speedX = Math.random() * 0.5 - 0.25;
+    this.opacity = Math.random() * 0.5 + 0.2;
+    this.fade = Math.random() * 0.005 + 0.002;
+  }
+  update() {
+    this.y -= this.speedY;
+    this.x += this.speedX;
+    this.opacity -= this.fade;
+    if (this.opacity <= 0 || this.y < -10) {
+      this.reset();
+    }
+  }
+  draw() {
+    ctx.fillStyle = `rgba(255, 126, 33, ${this.opacity})`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    // Subtle glow
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = 'rgba(255, 126, 33, 0.5)';
+  }
+}
+
+function initParticles() {
+  particles = [];
+  const count = window.innerWidth < 768 ? 30 : 60;
+  for (let i = 0; i < count; i++) {
+    particles.push(new Particle());
+  }
+}
+
+/* Re-init particles on resize if crossing threshold */
+let wasMobile = window.innerWidth < 768;
+window.addEventListener('resize', () => {
+  const isMobile = window.innerWidth < 768;
+  if (isMobile !== wasMobile) {
+    wasMobile = isMobile;
+    initParticles();
+  }
+});
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animate);
+}
+
+initParticles();
+animate();
+
+/* API LOGIC */
+let allCourses = [];
+let currentFilter = 'all';
+
+async function fetchCourses() {
+  try {
+    const payload = {
+      course_id: '0',
+      parent_id: '0',
+      folder_id: '',
+      content_category_id: '',
+      is_purchased: '0'
+    };
+
+    const data = await API.post('home-content', payload, 'nexttoppers-home');
+    
+    if (data.success && data.data) {
+      if (Array.isArray(data.data)) {
+        const trendingLayout = data.data.find(layout => layout.layout_type === 'layout_trending_course');
+        allCourses = trendingLayout?.list || data.data || [];
+      } else {
+        allCourses = data.data.list || data.data.data || [];
+      }
+    }
+  } catch (error) {
+    console.warn('API Proxy Fetch Error:', error.message);
+  } finally {
+    // Manually add the Sanskrit and Custom Courses
+    const manualCourses = [
+      {
+        id: "44743",
+        title: "JUNNON PRO BATCH CLASS 10 - 2027",
+        thumbnail: "https://d1xo3otg0k74xn.cloudfront.net/566/admin_v1/bundle_management/course/45193644743_PRO%202027%20BANNER%20.jpg",
+        is_sanskrit: true,
+        is_parent: true
+      },
+      {
+        id: "78",
+        title: "Abhay 10th Batch 2026 without Brahmastra",
+        thumbnail: "https://dylnd2lqy6eys.cloudfront.net/540/admin_v1/bundle_management/course/626308539904_abhay_10th_banner_app_2026.png",
+        is_old: true
+      },
+      {
+        id: "62",
+        title: "AARAMBH 2.O 10th BATCH 25-26",
+        thumbnail: "https://dylnd2lqy6eys.cloudfront.net/540/admin_v1/bundle_management/course/285939929246_10th_aarambh_2.0_banner_app.jpg",
+        is_old: true
+      }
+    ];
+    
+    manualCourses.forEach(mCourse => {
+      if (!allCourses.find(c => c.id == mCourse.id)) {
+        allCourses.push(mCourse);
+      }
+    });
+    
+    // Sort A-Z by title
+    allCourses.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+    
+    if (allCourses.length > 0) {
+      generateFilterTags();
+      applyFilters();
+      document.getElementById('batchCount').textContent = `${allCourses.length} Batches Available`;
+    }
+    document.getElementById('loadingOverlay').classList.add('hidden');
+  }
+}
+
+function generateFilterTags() {
+  const tagsContainer = document.getElementById('filterTags');
+  const categories = new Set();
+  
+  allCourses.forEach(course => {
+    const title = course.title || '';
+    if (title.match(/10th/i) || title.match(/class\s*10/i)) categories.add('Class 10th');
+    if (title.match(/9th/i) || title.match(/class\s*9/i)) categories.add('Class 9th');
+    if (title.match(/8th/i) || title.match(/class\s*8/i)) categories.add('Class 8th');
+    
+    if (title.match(/11th/i) || title.match(/class\s*11/i)) {
+      if (title.match(/pcmb/i)) categories.add('Class 11th PCMB');
+      else if (title.match(/commerce/i)) categories.add('Class 11th Commerce');
+      else if (title.match(/humanities/i)) categories.add('Class 11th Humanities');
+      else categories.add('Class 11th');
+    }
+    
+    if (title.match(/12th/i) || title.match(/class\s*12/i)) {
+      if (title.match(/pcmb/i)) categories.add('Class 12th PCMB');
+      else if (title.match(/commerce/i)) categories.add('Class 12th Commerce');
+      else if (title.match(/humanities/i)) categories.add('Class 12th Humanities');
+      else categories.add('Class 12th');
+    }
+    
+    if (title.match(/cuet/i)) {
+      if (title.match(/science/i)) categories.add('CUET (Science)');
+      else if (title.match(/commerce/i)) categories.add('CUET Commerce');
+      else if (title.match(/humanities/i)) categories.add('CUET Humanities');
+      else categories.add('CUET');
+    }
+  });
+
+  // Define sort order for classes
+  const order = [
+    'Class 8th', 'Class 9th', 'Class 10th', 
+    'Class 11th', 'Class 11th PCMB', 'Class 11th Commerce', 'Class 11th Humanities',
+    'Class 12th', 'Class 12th PCMB', 'Class 12th Commerce', 'Class 12th Humanities',
+    'CUET', 'CUET (Science)', 'CUET Commerce', 'CUET Humanities'
+  ];
+
+  const sortedCats = Array.from(categories).sort((a, b) => {
+    let indexA = order.indexOf(a);
+    let indexB = order.indexOf(b);
+    if (indexA === -1) indexA = 99;
+    if (indexB === -1) indexB = 99;
+    return indexA - indexB;
+  });
+
+  let html = `<button class="filter-tag active" data-filter="all">All</button>`;
+  sortedCats.forEach(cat => {
+    html += `<button class="filter-tag" data-filter="${cat}">${cat}</button>`;
+  });
+  
+  tagsContainer.innerHTML = html;
+
+  // Add event listeners
+  document.querySelectorAll('.filter-tag').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      applyFilters();
+    });
+  });
+}
+
+function applyFilters() {
+  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  
+  const filtered = allCourses.filter(course => {
+    const title = course.title.toLowerCase();
+    const matchesSearch = title.includes(searchTerm);
+    let matchesFilter = currentFilter === 'all';
+    
+    if (currentFilter !== 'all') {
+      // Check for specific class number
+      const classNumMatch = currentFilter.match(/\d+/);
+      const classNum = classNumMatch ? classNumMatch[0] : null;
+      
+      if (classNum) {
+        // Must have the number (e.g., 10 or 10th)
+        matchesFilter = title.includes(classNum);
+      } else if (currentFilter.includes('CUET')) {
+        matchesFilter = title.includes('cuet');
+      }
+
+      // Refine by stream if present in filter
+      if (currentFilter.includes('PCMB')) matchesFilter = matchesFilter && title.includes('pcmb');
+      if (currentFilter.includes('Commerce')) matchesFilter = matchesFilter && title.includes('commerce');
+      if (currentFilter.includes('Humanities')) matchesFilter = matchesFilter && title.includes('humanities');
+      if (currentFilter.includes('(Science)')) matchesFilter = matchesFilter && title.includes('science');
+    }
+    
+    return matchesSearch && matchesFilter;
+  });
+
+  renderCourses(filtered);
+  updateResultsCount(filtered.length);
+}
+
+function updateResultsCount(count) {
+  document.getElementById('resultsCount').innerHTML = 
+    `Showing <span class="count-num">${count}</span> of <span class="count-num">${allCourses.length}</span> Batches`;
+}
+
+// Add search listener
+document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+function extractClass(title) {
+  const match = title.match(/class\s*(\d+)/i) || title.match(/(\d+)th/i);
+  return match ? `CLASS ${match[1]}TH` : 'CLASS ALL';
+}
+
+function renderCourses(courses) {
+  const grid = document.getElementById('courseGrid');
+  const globalPlaceholder = 'https://d2alr3mt323vql.cloudfront.net/0/admin_v1/application_management/clientlogo/3390552566_Group%2018440%20%284%29.png';
+  
+  grid.innerHTML = courses.map((course, idx) => {
+    const thumbnail = course.thumbnail || course.image_icon || globalPlaceholder;
+    const title = course.title || 'Untitled Course';
+    const classLabel = extractClass(title);
+    const batchNum = (idx + 1).toString().padStart(2, '0');
+    
+    return `
+      <div class="course-card" onclick="openCourse(${course.id})">
+        <div class="card-image-wrap">
+          <img class="card-image ${!course.thumbnail && !course.image_icon ? 'branded-placeholder' : ''}" 
+               src="${thumbnail}" alt="${title}" 
+               onerror="this.src='${globalPlaceholder}'; this.classList.add('branded-placeholder')">
+          <div class="image-overlay"></div>
+        </div>
+        <div class="card-content">
+          <div class="badge-container">
+            <div class="card-badge">
+              <div class="dot"></div>
+              <span>${classLabel}</span>
+            </div>
+            ${course.is_old ? `
+            <div class="card-badge old-badge">
+              <div class="dot" style="background:var(--text-secondary); box-shadow:none;"></div>
+              <span>OLD</span>
+            </div>` : ''}
+          </div>
+          <h3 class="card-title">${title}</h3>
+          <div class="card-meta">
+            <div class="meta-item">
+              <span class="meta-icon">📁</span>
+              <span>Batch #${batchNum}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-icon">▶</span>
+              <span>Start Anytime</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="start-learning">Start Learning</span>
+            <div class="arrow-btn">→</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openCourse(courseId) {
+  window.location.href = `course_dynamic.html?course_id=${courseId}`;
+}
+
+fetchCourses();
+</script>
+</body>
+</html>

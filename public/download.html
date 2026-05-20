@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexttoppers · Video Downloader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Teko:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #05070a;
+  --card-bg: #111319;
+  --accent: #ff7e21;
+  --accent-glow: rgba(255, 126, 33, 0.4);
+  --text-primary: #ffffff;
+  --text-secondary: #888b94;
+  --text-cream: #f1f1e6;
+  --border: rgba(255, 255, 255, 0.06);
+  --grid-color: rgba(255, 126, 33, 0.03);
+  --success: #10b981;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* BACKGROUND ATMOSPHERE */
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+canvas#fireCanvas {
+  position: absolute;
+  inset: 0;
+}
+
+/* HEADER */
+header {
+  padding: 16px 40px;
+  background: rgba(5, 7, 10, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #ff7e21, #ff4d00);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Teko', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: white;
+}
+
+.brand-name {
+  font-family: 'Teko', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+/* MAIN CONTENT */
+.container {
+  max-width: 800px;
+  width: 100%;
+  margin: 40px auto;
+  padding: 0 20px;
+  flex: 1;
+}
+
+.downloader-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.title-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.video-title {
+  font-family: 'Teko', sans-serif;
+  font-size: 2rem;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+
+.video-url-hint {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  word-break: break-all;
+  opacity: 0.6;
+}
+
+/* RESOLUTION SELECTION */
+.section-label {
+  font-family: 'Teko', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.resolution-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.res-option {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.res-option:hover {
+  background: rgba(255, 126, 33, 0.05);
+  border-color: var(--accent);
+}
+
+.res-option.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.res-label {
+  font-family: 'Teko', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  display: block;
+}
+
+.res-info {
+  font-size: 0.7rem;
+  font-weight: 700;
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+/* FORMAT OPTIONS */
+.format-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.format-btn {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-family: 'Teko', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.format-btn:hover:not(:disabled) {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.format-btn span {
+  font-size: 0.7rem;
+  font-family: 'Inter', sans-serif;
+  opacity: 0.6;
+}
+
+.format-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* PROGRESS */
+.progress-container {
+  display: none;
+  margin-top: 24px;
+}
+
+.progress-container.active {
+  display: block;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.progress-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #ff4d00);
+  transition: width 0.3s;
+}
+
+.status-log {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  height: 120px;
+  overflow-y: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.status-log::-webkit-scrollbar {
+  width: 4px;
+}
+
+.status-log::-webkit-scrollbar-thumb {
+  background: rgba(255, 126, 33, 0.3);
+  border-radius: 2px;
+}
+
+/* LOADER */
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  transition: opacity 0.4s;
+}
+
+.loader-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 126, 33, 0.1);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loader-text {
+  font-family: 'Teko', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+/* FOOTER */
+footer {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.footer-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.footer-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0.4;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.footer-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+  .format-grid { grid-template-columns: 1fr; }
+  .downloader-card { padding: 24px; border-radius: 20px; }
+  .resolution-grid { grid-template-columns: repeat(2, 1fr); }
+  .video-title { font-size: 1.5rem; }
+  .format-btn { min-height: 56px; }
+}
+
+@media (max-width: 400px) {
+  .resolution-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="loader-overlay" id="mainLoader">
+  <div class="spinner"></div>
+  <div class="loader-text">Analyzing Playlist...</div>
+</div>
+
+<div class="atmosphere">
+  <div class="grid-overlay"></div>
+  <canvas id="fireCanvas"></canvas>
+</div>
+
+<header>
+  <a href="index.html" class="nav-brand">
+    <div class="brand-logo">NT</div>
+    <span class="brand-name">Nexttoppers</span>
+  </a>
+</header>
+
+<div class="container">
+  <div class="downloader-card">
+    <div class="title-section">
+      <h1 class="video-title" id="displayTitle">Video Downloader</h1>
+      <div class="video-url-hint" id="displayUrl">Loading source...</div>
+    </div>
+
+    <div id="resolutionSection" style="display: none;">
+      <div class="section-label">Select Quality</div>
+      <div class="resolution-grid" id="resolutionGrid"></div>
+    </div>
+
+    <div id="downloadSection" style="display: none;">
+      <div class="section-label">Choose Format</div>
+      <div class="format-grid">
+        <button class="format-btn" id="dlTs" onclick="startDownload('ts')">
+          Download .TS
+          <span>Fastest · Direct Merge</span>
+        </button>
+        <button class="format-btn" id="dlMp4" onclick="startDownload('mp4')">
+          Download .MP4
+          <span>Standard · Combined</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="progress-container" id="progressContainer">
+      <div class="progress-header">
+        <span id="statusText">Preparing...</span>
+        <span id="progressPercent">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progressBar"></div>
+      </div>
+      <div class="status-log" id="statusLog"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-dots">
+    <div class="footer-dot"></div>
+    <div class="footer-dot"></div>
+    <div class="footer-dot"></div>
+  </div>
+  <div class="footer-text">Nexttoppers — Work Hard, Dream Big ✦ Never Give Up</div>
+  <div class="footer-text" style="margin-top: 10px; font-size: 0.65rem; opacity: 0.7;">
+    Developed by <span style="color: var(--accent);">SAATHVIK ©</span>
+  </div>
+</footer>
+
+<script>
+/* FIRE PARTICLES */
+const canvas = document.getElementById('fireCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.addEventListener('resize', resize);
+resize();
+class Particle {
+  constructor() { this.reset(); }
+  reset() { this.x = Math.random() * canvas.width; this.y = canvas.height + Math.random() * 100; this.size = Math.random() * 2 + 1; this.speedY = Math.random() * 1 + 0.5; this.speedX = Math.random() * 0.5 - 0.25; this.opacity = Math.random() * 0.5 + 0.2; this.fade = Math.random() * 0.005 + 0.002; }
+  update() { this.y -= this.speedY; this.x += this.speedX; this.opacity -= this.fade; if (this.opacity <= 0 || this.y < -10) this.reset(); }
+  draw() { ctx.fillStyle = `rgba(255, 126, 33, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+}
+function initParticles() { for (let i = 0; i < 40; i++) particles.push(new Particle()); }
+function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+initParticles(); animate();
+
+/* DOWNLOADER LOGIC */
+const urlParams = new URLSearchParams(window.location.search);
+const videoUrl = urlParams.get('url');
+const videoTitle = urlParams.get('title') || 'video';
+
+document.getElementById('displayTitle').textContent = videoTitle;
+document.getElementById('displayUrl').textContent = videoUrl;
+
+let selectedStreamUrl = null;
+let streams = [];
+
+async function init() {
+  if (!videoUrl) {
+    alert('No video URL provided');
+    hideLoader();
+    return;
+  }
+
+  try {
+    const response = await fetch(videoUrl);
+    const text = await response.text();
+    const baseUrl = videoUrl.substring(0, videoUrl.lastIndexOf('/') + 1);
+
+    if (text.includes('#EXT-X-STREAM-INF')) {
+      // Master playlist
+      const lines = text.split('\n');
+      for (let i = 0; i < lines.length; i++) {
+        if (lines[i].startsWith('#EXT-X-STREAM-INF')) {
+          const info = lines[i];
+          const streamPath = lines[i+1].trim();
+          const resolutionMatch = info.match(/RESOLUTION=(\d+x\d+)/);
+          const bandwidthMatch = info.match(/BANDWIDTH=(\d+)/);
+          
+          streams.push({
+            resolution: resolutionMatch ? resolutionMatch[1].split('x')[1] + 'p' : 'Unknown',
+            bandwidth: bandwidthMatch ? Math.round(parseInt(bandwidthMatch[1])/1024) + 'kbps' : '',
+            url: streamPath.startsWith('http') ? streamPath : new URL(streamPath, baseUrl).href
+          });
+          i++;
+        }
+      }
+      renderResolutions();
+    } else {
+      // Media playlist
+      selectedStreamUrl = videoUrl;
+      document.getElementById('downloadSection').style.display = 'block';
+    }
+  } catch (e) {
+    console.error(e);
+    log('Error loading playlist: ' + e.message);
+  } finally {
+    hideLoader();
+  }
+}
+
+function renderResolutions() {
+  const grid = document.getElementById('resolutionGrid');
+  grid.innerHTML = streams.map((s, i) => `
+    <div class="res-option" onclick="selectResolution(${i})">
+      <span class="res-label">${s.resolution}</span>
+      <span class="res-info">${s.bandwidth}</span>
+    </div>
+  `).join('');
+  document.getElementById('resolutionSection').style.display = 'block';
+}
+
+function selectResolution(index) {
+  document.querySelectorAll('.res-option').forEach((opt, i) => {
+    opt.classList.toggle('active', i === index);
+  });
+  selectedStreamUrl = streams[index].url;
+  document.getElementById('downloadSection').style.display = 'block';
+}
+
+async function startDownload(format) {
+  const container = document.getElementById('progressContainer');
+  container.classList.add('active');
+  document.getElementById('dlTs').disabled = true;
+  document.getElementById('dlMp4').disabled = true;
+  
+  const logBox = document.getElementById('statusLog');
+  logBox.innerHTML = '';
+  
+  try {
+    log(`Fetching media playlist...`);
+    const response = await fetch(selectedStreamUrl);
+    const text = await response.text();
+    const baseUrl = selectedStreamUrl.substring(0, selectedStreamUrl.lastIndexOf('/') + 1);
+    
+    const segmentLines = text.split('\n').filter(line => 
+      line.trim() && !line.startsWith('#') && (line.includes('.ts') || line.includes('.m4s') || line.includes('.mp4'))
+    );
+    
+    if (segmentLines.length === 0) throw new Error('No segments found in playlist');
+    
+    log(`Found ${segmentLines.length} segments. Starting download...`);
+    
+    const chunks = [];
+    for (let i = 0; i < segmentLines.length; i++) {
+      const segUrl = segmentLines[i].startsWith('http') ? segmentLines[i] : new URL(segmentLines[i], baseUrl).href;
+      const percent = Math.round(((i + 1) / segmentLines.length) * 100);
+      
+      document.getElementById('statusText').textContent = `Downloading segment ${i + 1}/${segmentLines.length}`;
+      updateProgress(percent);
+      
+      const segRes = await fetch(segUrl);
+      if (!segRes.ok) throw new Error(`Failed to download segment ${i+1}`);
+      const buf = await segRes.arrayBuffer();
+      chunks.push(buf);
+      
+      if (i % 5 === 0 || i === segmentLines.length - 1) {
+        log(`Progress: ${percent}% (${i + 1}/${segmentLines.length})`);
+      }
+    }
+    
+    log(`Merging ${chunks.length} segments...`);
+    document.getElementById('statusText').textContent = `Merging segments...`;
+    
+    let totalLength = 0;
+    for (const chunk of chunks) totalLength += chunk.byteLength;
+    
+    const mergedData = new Uint8Array(totalLength);
+    let offset = 0;
+    for (const chunk of chunks) {
+      mergedData.set(new Uint8Array(chunk), offset);
+      offset += chunk.byteLength;
+    }
+    
+    log(`Creating file...`);
+    const blob = new Blob([mergedData], { type: format === 'ts' ? 'video/mp2t' : 'video/mp4' });
+    const blobUrl = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = `${videoTitle.replace(/[^a-z0-9]/gi, '_')}.${format}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    log(`Success! Download should begin shortly.`);
+    document.getElementById('statusText').textContent = `Download Complete!`;
+    updateProgress(100);
+    
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+    
+  } catch (e) {
+    log(`Error: ${e.message}`);
+    document.getElementById('statusText').textContent = `Download Failed`;
+    document.getElementById('progressBar').style.background = '#ef4444';
+  } finally {
+    document.getElementById('dlTs').disabled = false;
+    document.getElementById('dlMp4').disabled = false;
+  }
+}
+
+function log(msg) {
+  const logBox = document.getElementById('statusLog');
+  const div = document.createElement('div');
+  div.textContent = `> ${msg}`;
+  logBox.appendChild(div);
+  logBox.scrollTop = logBox.scrollHeight;
+}
+
+function updateProgress(percent) {
+  document.getElementById('progressBar').style.width = percent + '%';
+  document.getElementById('progressPercent').textContent = percent + '%';
+}
+
+function hideLoader() {
+  document.getElementById('mainLoader').classList.add('hidden');
+}
+
+function showLoader(text) {
+  if (text) document.querySelector('.loader-text').textContent = text;
+  document.getElementById('mainLoader').classList.remove('hidden');
+}
+
+init();
+</script>
+
+</body>
+</html>

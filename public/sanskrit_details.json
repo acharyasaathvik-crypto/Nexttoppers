@@ -1,0 +1,116 @@
+﻿{
+    "status":  true,
+    "message":  "Course Found.",
+    "data":  {
+                 "course_detail":  {
+                                       "id":  "45307",
+                                       "stocks":  "0",
+                                       "start_date":  "1776318486",
+                                       "end_date":  "4929918486",
+                                       "location":  "",
+                                       "event_location":  null,
+                                       "display_locked":  "0",
+                                       "hide_validity":  "0",
+                                       "extra_json":  {
+                                                          "home_screen":  "0",
+                                                          "skip_parent_course":  "0",
+                                                          "is_new":  "0",
+                                                          "is_live":  "0",
+                                                          "is_trending":  "0",
+                                                          "is_subscription":  "0"
+                                                      },
+                                       "content_type":  "0",
+                                       "payment_mode":  "0",
+                                       "description":  "",
+                                       "skip_topic":  "0",
+                                       "seo_json":  "",
+                                       "course_syallbus_pdf":  null,
+                                       "installment_id":  "",
+                                       "installment_meta":  "",
+                                       "subscription_id":  null,
+                                       "subscription_meta":  null,
+                                       "title":  "SHEMUSHI BATCH",
+                                       "txn_id":  "0",
+                                       "token_id":  null,
+                                       "mrp":  "0",
+                                       "course_sp":  "0",
+                                       "validity":  "500 Days",
+                                       "is_purchased":  "0",
+                                       "view_type":  "3189",
+                                       "course_code":  "0",
+                                       "skip_payment":  "0",
+                                       "cat_type":  "0",
+                                       "delivery_charge":  "0",
+                                       "is_combo":  "0",
+                                       "token_activation":  "0",
+                                       "is_gst":  "0",
+                                       "tax_rate":  "18",
+                                       "subscription_code":  null,
+                                       "avg_rating":  "0.00",
+                                       "user_rated":  "0",
+                                       "is_rating":  "0",
+                                       "free_ids":  "",
+                                       "transaction_status":  " ",
+                                       "external_coupon_off":  "0",
+                                       "live_count":  "0",
+                                       "combo_has_book":  "0",
+                                       "book_seprate_price":  "0",
+                                       "address":  "",
+                                       "cover_image":  "",
+                                       "desc_header_image":  "https://d1xo3otg0k74xn.cloudfront.net/566/admin_v1/bundle_management/course/153063845307_PRO%202027%20BANNER%20%20%282%29.jpg",
+                                       "is_trial":  "0",
+                                       "last_paid_txn_id":  "0",
+                                       "author":  {
+                                                      "title":  ""
+                                                  },
+                                       "tax":  "0",
+                                       "pay_via":  "0",
+                                       "is_activated":  "0"
+                                   },
+                 "tiles":  [
+                               {
+                                   "id":  "0",
+                                   "tile_name":  "Content",
+                                   "type":  "course_combo",
+                                   "revert_api":  "1#0#0#1",
+                                   "is_tile_shown":  "1",
+                                   "thumbnail":  "",
+                                   "set_as_demo":  0,
+                                   "meta":  {
+                                                "list":  [
+                                                             {
+                                                                 "id":  "45307",
+                                                                 "title":  "SHEMUSHI BATCH",
+                                                                 "is_live":  "0",
+                                                                 "segment_information":  "10: PLANNER, 7: Video",
+                                                                 "desc_header_image":  "",
+                                                                 "cover_image":  "",
+                                                                 "is_locked":  "1",
+                                                                 "cat_type":  "0"
+                                                             }
+                                                         ]
+                                            }
+                               }
+                           ],
+                 "subscription_all_data":  [
+
+                                           ],
+                 "instalment":  {
+                                    "id":  "45307",
+                                    "payment_mode":  "0",
+                                    "is_gst":  "0",
+                                    "tax_rate":  "18",
+                                    "installment":  [
+
+                                                    ],
+                                    "user_installment_data":  [
+
+                                                              ]
+                                },
+                 "igst":  "1"
+             },
+    "time":  1779085113,
+    "interval":  10,
+    "limit":  0,
+    "cd_time":  17790799725233
+}
