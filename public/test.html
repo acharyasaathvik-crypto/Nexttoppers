@@ -406,17 +406,33 @@ let timeRemaining = 0;
 let timerInterval = null;
 let timeSpent = 0;
 
+window.retestNow = () => {
+  if (confirm('Are you sure you want to retest? Your previous attempt will be cleared.')) {
+    window.useTestAttempt.resetTest(testId);
+    window.location.reload();
+  }
+};
+
 async function fetchTestData() {
+  if (!testId) {
+    console.error('[Test] No test_id provided in URL');
+    alert('Test ID is missing. Please return to the course page.');
+    window.location.href = 'course_dynamic.html';
+    return;
+  }
+  
   try {
     const res = await window.API.get('get-test-data', { test_id: testId }, 'nexttoppers-test');
-    if (res.success || res.status) {
-      testData = res.data;
+    console.log('[Test] Data fetched:', res);
+    if (res.success || res.status || res.data) {
+      testData = res.data || res;
       initTest();
     } else {
-      alert('Failed to load test data');
+      console.error('[Test] API returned unsuccessful response', res);
+      alert('Failed to load test data: ' + (res.message || 'Unknown error'));
     }
   } catch (e) {
-    console.error(e);
+    console.error('[Test] Fetch error:', e);
     alert('Network error while fetching test data');
   } finally {
     document.getElementById('loader').classList.add('hidden');
@@ -424,7 +440,16 @@ async function fetchTestData() {
 }
 
 function initTest() {
+  console.log('[Test] Initializing...');
+  if (!testData || !testData.sections || !testData.sections[0]) {
+    console.error('[Test] Invalid test data structure:', testData);
+    alert('Test data is incomplete or corrupted.');
+    return;
+  }
+  // ... rest of initTest (guards already added in previous turn)
+
   const statusObj = window.useTestAttempt.getTestStatus(testId);
+  console.log('[Test] Status:', statusObj);
   const releaseTime = testData.result_specific_time || 0;
   const now = Math.floor(Date.now() / 1000);
   const isReleased = !releaseTime || now >= Number(releaseTime);
@@ -444,22 +469,15 @@ function initTest() {
         minute: '2-digit',
         hour12: true
       });
-      document.body.innerHTML = \`
+      document.body.innerHTML = `
         <div style="background:var(--bg); color:var(--accent); height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:'Teko', sans-serif; text-align:center; padding:20px;">
           <div style="font-size:3rem; margin-bottom:20px;">TEST COMPLETED</div>
-          <div style="font-size:1.5rem; color:var(--text-secondary);">RESULT ON: \${timeStr}</div>
+          <div style="font-size:1.5rem; color:var(--text-secondary);">RESULT ON: ${timeStr}</div>
           <div style="display:flex; gap:16px; margin-top:40px;">
             <button class="btn btn-ghost" onclick="window.location.href='course_dynamic.html'">BACK TO COURSE</button>
             <button class="btn btn-accent" onclick="retestNow()">RETEST NOW</button>
           </div>
-        </div>\`;
-      
-      window.retestNow = () => {
-        if (confirm('Are you sure you want to retest? Your previous attempt will be cleared.')) {
-          window.useTestAttempt.resetTest(testId);
-          window.location.reload();
-        }
-      };
+        </div>`;
       return;
     }
     
@@ -467,14 +485,18 @@ function initTest() {
     return;
   }
 
+  // Ensure UI is visible
+  document.getElementById('instructionsOverlay').style.display = 'flex';
+  document.querySelector('.test-container').style.display = 'grid';
+
   const section = testData.sections[0];
-  const questions = section.questions;
+  const questions = section.questions || [];
   
-  document.getElementById('testNameInst').textContent = testData.test_name;
+  document.getElementById('testNameInst').textContent = testData.test_name || 'Quantum Test';
   document.getElementById('totalQCount').textContent = questions.length;
-  document.getElementById('totalTimeCount').textContent = Math.floor(testData.total_time / 60);
+  document.getElementById('totalTimeCount').textContent = Math.floor((testData.total_time || 0) / 60);
   
-  timeRemaining = parseInt(testData.total_time);
+  timeRemaining = parseInt(testData.total_time || 0);
   
   renderNavGrid();
 }
@@ -532,7 +554,7 @@ function startTimer() {
 function updateTimerDisplay() {
   const m = Math.floor(timeRemaining / 60);
   const s = timeRemaining % 60;
-  document.getElementById('timerDisplay').textContent = \`\${m.toString().padStart(2, '0')}:\${s.toString().padStart(2, '0')}\`;
+  document.getElementById('timerDisplay').textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 }
 
 function renderQuestion() {
@@ -542,8 +564,8 @@ function renderQuestion() {
   const lang = Object.keys(q.languages)[0];
   const content = q.languages[lang];
 
-  document.getElementById('qIdx').textContent = \`Question \${(currentQIndex + 1).toString().padStart(2, '0')}\`;
-  document.getElementById('qMarks').textContent = \`+\${q.mark_per_question} Marks\`;
+  document.getElementById('qIdx').textContent = `Question ${(currentQIndex + 1).toString().padStart(2, '0')}`;
+  document.getElementById('qMarks').textContent = `+${q.mark_per_question} Marks`;
   document.getElementById('qText').innerHTML = content.question_text;
 
   const optionsGrid = document.getElementById('optionsGrid');
@@ -556,10 +578,10 @@ function renderQuestion() {
       option.onclick = () => selectOption(qId, key);
       
       const char = String.fromCharCode(65 + idx);
-      option.innerHTML = \`
-        <div class="opt-idx">\${char}</div>
-        <div class="opt-text">\${content[key]}</div>
-      \`;
+      option.innerHTML = `
+        <div class="opt-idx">${char}</div>
+        <div class="opt-text">${content[key]}</div>
+      `;
       optionsGrid.appendChild(option);
     }
   });
@@ -621,7 +643,7 @@ function renderNavGrid() {
   section.questions.forEach((_, i) => {
     const btn = document.createElement('div');
     btn.className = 'q-nav-btn';
-    btn.id = \`nav_q_\${i}\`;
+    btn.id = `nav_q_${i}`;
     btn.textContent = i + 1;
     btn.onclick = () => {
       currentQIndex = i;
@@ -635,7 +657,7 @@ function updateNavGrid() {
   const section = testData.sections[0];
   section.questions.forEach((q, i) => {
     const qId = q.question_group_id || q.id;
-    const btn = document.getElementById(\`nav_q_\${i}\`);
+    const btn = document.getElementById(`nav_q_${i}`);
     if (!btn) return;
     btn.classList.remove('active', 'answered', 'marked');
     
@@ -656,7 +678,7 @@ function togglePalette(show) {
 
 function goBack() {
   if (confirm('Are you sure you want to exit? Your progress will be lost.')) {
-    window.location.href = \`course_dynamic.html?course_id=\${localStorage.getItem('lastCourseId') || '44743'}\`;
+    window.location.href = `course_dynamic.html?course_id=${localStorage.getItem('lastCourseId') || '44743'}`;
   }
 }
 

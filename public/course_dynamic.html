@@ -1134,6 +1134,7 @@ function renderContent() {
           <div style="display:flex; gap:8px; margin-top:12px;">
             <button class="cta-btn" style="flex:1; padding:8px; font-size:0.8rem; background:rgba(0,255,136,0.1); color:#00ff88; border:1px solid rgba(0,255,136,0.3); box-shadow:none;" onclick="handleTest('${testId}', ${releaseTime})">RESULT</button>
             <button class="cta-btn" style="flex:1; padding:8px; font-size:0.8rem; background:rgba(255,126,33,0.1); color:var(--accent); border:1px solid rgba(255,126,33,0.3); box-shadow:none;" onclick="handleTest('${testId}', ${releaseTime}, 'retest')">RETEST</button>
+
           </div>
         `;
       } else {
@@ -1195,6 +1196,13 @@ function handleTest(testId, releaseTime, action) {
   if (action === 'retest' && isCompleted) {
     if (confirm('Are you sure you want to retest? Your previous attempt will be cleared.')) {
       localStorage.removeItem(`test_attempt_${testId}`);
+      localStorage.removeItem(`test_solution_${testId}`);
+      localStorage.removeItem(`test_local_result_${testId}`);
+      
+      let completed = JSON.parse(localStorage.getItem('completed_tests') || '[]');
+      completed = completed.filter(id => id != testId);
+      localStorage.setItem('completed_tests', JSON.stringify(completed));
+
       window.open(`test.html?test_id=${testId}`, '_blank');
     }
     return;
@@ -1290,7 +1298,8 @@ function renderSanskritContent() {
           buttonsHtml = `
             <div style="display:flex; gap:8px; margin-top:12px;">
               <button class="cta-btn" style="flex:1; padding:8px; font-size:0.8rem; background:rgba(0,255,136,0.1); color:#00ff88; border:1px solid rgba(0,255,136,0.3); box-shadow:none;" onclick="handleTest('${testId}', ${releaseTime})">RESULT</button>
-              <button class="cta-btn" style="flex:1; padding:8px; font-size:0.8rem; background:rgba(255,126,33,0.1); color:var(--accent); border:1px solid rgba(255,126,33,0.3); box-shadow:none;" onclick="handleTest('${testId}', ${releaseTime})">RETEST</button>
+              <button class="cta-btn" style="flex:1; padding:8px; font-size:0.8rem; background:rgba(255,126,33,0.1); color:var(--accent); border:1px solid rgba(255,126,33,0.3); box-shadow:none;" onclick="handleTest('${testId}', ${releaseTime}, 'retest')">RETEST</button>
+
             </div>
           `;
         } else {
