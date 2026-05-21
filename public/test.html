@@ -399,8 +399,9 @@ const testId = urlParams.get('test_id');
 
 let testData = null;
 let currentQIndex = 0;
-let userAnswers = {}; // { questionIndex: optionKey }
+let userAnswers = {}; // { qId: optionKey }
 let markedForReview = new Set();
+let questionTimes = {}; // { qId: seconds }
 let timeRemaining = 0;
 let timerInterval = null;
 let timeSpent = 0;
@@ -443,15 +444,15 @@ function initTest() {
         minute: '2-digit',
         hour12: true
       });
-      document.body.innerHTML = `
+      document.body.innerHTML = \`
         <div style="background:var(--bg); color:var(--accent); height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:'Teko', sans-serif; text-align:center; padding:20px;">
           <div style="font-size:3rem; margin-bottom:20px;">TEST COMPLETED</div>
-          <div style="font-size:1.5rem; color:var(--text-secondary);">RESULT ON: ${timeStr}</div>
+          <div style="font-size:1.5rem; color:var(--text-secondary);">RESULT ON: \${timeStr}</div>
           <div style="display:flex; gap:16px; margin-top:40px;">
             <button class="btn btn-ghost" onclick="window.location.href='course_dynamic.html'">BACK TO COURSE</button>
             <button class="btn btn-accent" onclick="retestNow()">RETEST NOW</button>
           </div>
-        </div>`;
+        </div>\`;
       
       window.retestNow = () => {
         if (confirm('Are you sure you want to retest? Your previous attempt will be cleared.')) {
@@ -511,6 +512,15 @@ function startTimer() {
   timerInterval = setInterval(() => {
     timeRemaining--;
     timeSpent++;
+    
+    // Track per-question time
+    try {
+      const section = testData.sections[0];
+      const q = section.questions[currentQIndex];
+      const qId = q.question_group_id || q.id;
+      questionTimes[qId] = (questionTimes[qId] || 0) + 1;
+    } catch(e) {}
+
     updateTimerDisplay();
     if (timeRemaining <= 0) {
       clearInterval(timerInterval);
@@ -522,7 +532,7 @@ function startTimer() {
 function updateTimerDisplay() {
   const m = Math.floor(timeRemaining / 60);
   const s = timeRemaining % 60;
-  document.getElementById('timerDisplay').textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  document.getElementById('timerDisplay').textContent = \`\${m.toString().padStart(2, '0')}:\${s.toString().padStart(2, '0')}\`;
 }
 
 function renderQuestion() {
@@ -532,8 +542,8 @@ function renderQuestion() {
   const lang = Object.keys(q.languages)[0];
   const content = q.languages[lang];
 
-  document.getElementById('qIdx').textContent = `Question ${(currentQIndex + 1).toString().padStart(2, '0')}`;
-  document.getElementById('qMarks').textContent = `+${q.mark_per_question} Marks`;
+  document.getElementById('qIdx').textContent = \`Question \${(currentQIndex + 1).toString().padStart(2, '0')}\`;
+  document.getElementById('qMarks').textContent = \`+\${q.mark_per_question} Marks\`;
   document.getElementById('qText').innerHTML = content.question_text;
 
   const optionsGrid = document.getElementById('optionsGrid');
@@ -546,10 +556,10 @@ function renderQuestion() {
       option.onclick = () => selectOption(qId, key);
       
       const char = String.fromCharCode(65 + idx);
-      option.innerHTML = `
-        <div class="opt-idx">${char}</div>
-        <div class="opt-text">${content[key]}</div>
-      `;
+      option.innerHTML = \`
+        <div class="opt-idx">\${char}</div>
+        <div class="opt-text">\${content[key]}</div>
+      \`;
       optionsGrid.appendChild(option);
     }
   });
@@ -611,7 +621,7 @@ function renderNavGrid() {
   section.questions.forEach((_, i) => {
     const btn = document.createElement('div');
     btn.className = 'q-nav-btn';
-    btn.id = `nav_q_${i}`;
+    btn.id = \`nav_q_\${i}\`;
     btn.textContent = i + 1;
     btn.onclick = () => {
       currentQIndex = i;
@@ -625,7 +635,8 @@ function updateNavGrid() {
   const section = testData.sections[0];
   section.questions.forEach((q, i) => {
     const qId = q.question_group_id || q.id;
-    const btn = document.getElementById(`nav_q_${i}`);
+    const btn = document.getElementById(\`nav_q_\${i}\`);
+    if (!btn) return;
     btn.classList.remove('active', 'answered', 'marked');
     
     if (i === currentQIndex) btn.classList.add('active');
@@ -645,7 +656,7 @@ function togglePalette(show) {
 
 function goBack() {
   if (confirm('Are you sure you want to exit? Your progress will be lost.')) {
-    window.location.href = `course_dynamic.html?course_id=${localStorage.getItem('lastCourseId') || '44743'}`;
+    window.location.href = \`course_dynamic.html?course_id=\${localStorage.getItem('lastCourseId') || '44743'}\`;
   }
 }
 
@@ -660,10 +671,11 @@ async function submitTest(isAuto = false) {
     test_id: testId,
     submittedAt: new Date().toISOString(),
     answers: userAnswers,
-    timeSpent: timeSpent
+    timeSpent: timeSpent,
+    questionTimes: questionTimes
   };
   
-  await window.useTestAttempt.submitTest(testId, attemptData);
+  await window.useTestAttempt.submitTest(testId, attemptData, testData);
   
   document.getElementById('loader').classList.add('hidden');
   

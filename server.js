@@ -87,7 +87,7 @@ app.all('/course', async (req, res) => {
         }
     } else if (target === 'nexttoppers-test') {
         targetUrl = `https://test.nexttoppers.com/test/${endpoint}`;
-        headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        headers['Content-Type'] = endpoint === 'submit' ? 'application/json' : 'application/x-www-form-urlencoded';
         if (endpoint === 'get-test-data') targetMethod = 'GET';
     } else if (target === 'nexttoppers-extra') {
         targetUrl = `https://ntxapi.wasmer.app/?action=${payload.action}&content_id=${payload.content_id}&course_id=${payload.course_id}&rc=nt`;
