@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <!-- Home Page -->
     <url>
-        <loc>https://nexttoppers.me.to/</loc>
+        <loc>https://nexttoppers.my.to/</loc>
         <lastmod>2026-05-21</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
@@ -10,19 +10,19 @@
 
     <!-- Main Courses -->
     <url>
-        <loc>https://nexttoppers.me.to/course_dynamic.html?course_id=45307</loc>
+        <loc>https://nexttoppers.my.to/course_dynamic.html?course_id=45307</loc>
         <lastmod>2026-05-21</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://nexttoppers.me.to/course_dynamic.html?course_id=44743</loc>
+        <loc>https://nexttoppers.my.to/course_dynamic.html?course_id=44743</loc>
         <lastmod>2026-05-21</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://nexttoppers.me.to/course_dynamic.html?course_id=45306</loc>
+        <loc>https://nexttoppers.my.to/course_dynamic.html?course_id=45306</loc>
         <lastmod>2026-05-21</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -30,13 +30,13 @@
 
     <!-- Other Courses -->
     <url>
-        <loc>https://nexttoppers.me.to/course_dynamic.html?course_id=78</loc>
+        <loc>https://nexttoppers.my.to/course_dynamic.html?course_id=78</loc>
         <lastmod>2026-05-21</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://nexttoppers.me.to/course_dynamic.html?course_id=62</loc>
+        <loc>https://nexttoppers.my.to/course_dynamic.html?course_id=62</loc>
         <lastmod>2026-05-21</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -44,19 +44,19 @@
 
     <!-- Utility Pages -->
     <url>
-        <loc>https://nexttoppers.me.to/download.html</loc>
+        <loc>https://nexttoppers.my.to/download.html</loc>
         <lastmod>2026-05-21</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://nexttoppers.me.to/test.html</loc>
+        <loc>https://nexttoppers.my.to/test.html</loc>
         <lastmod>2026-05-21</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://nexttoppers.me.to/player.html</loc>
+        <loc>https://nexttoppers.my.to/player.html</loc>
         <lastmod>2026-05-21</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
