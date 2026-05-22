@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nexttoppers.me.to/sitemap.xml
+Sitemap: https://nexttoppers.my.to/sitemap.xml
