@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PW Batches · Nexttoppers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Teko:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #05070a;
+            --card-bg: #111319;
+            --accent: #ff7e21;
+            --accent-glow: rgba(255, 126, 33, 0.4);
+            --text-primary: #ffffff;
+            --text-secondary: #888b94;
+            --border: rgba(255, 255, 255, 0.06);
+            --grid-color: rgba(255, 126, 33, 0.03);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background */
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: -1;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 7, 10, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Teko', sans-serif;
+            font-size: 32px;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        main {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        /* Batch Grid */
+        .batch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .batch-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .batch-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .batch-photo {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+
+        .batch-info {
+            padding: 16px;
+        }
+
+        .batch-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .batch-tagline {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .batch-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* Batch Details */
+        .detail-header {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 40px;
+            align-items: flex-start;
+        }
+
+        .detail-img {
+            width: 400px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .detail-content {
+            flex: 1;
+        }
+
+        .detail-title {
+            font-size: 48px;
+            font-family: 'Teko', sans-serif;
+            margin-bottom: 16px;
+            line-height: 1;
+        }
+
+        .detail-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 24px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+
+        .tab {
+            padding: 12px 0;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--accent);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        /* Lists */
+        .list-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .list-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .list-item-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 126, 33, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+        }
+
+        .list-item-content h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .list-item-content p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Back Button */
+        .back-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background: var(--border);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 100px;
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+
+        /* Search */
+        .search-container {
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 16px 20px;
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+        }
+
+        /* Announcements */
+        .announcement-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .announcement-date {
+            font-size: 12px;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .announcement-text {
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .detail-header {
+                flex-direction: column;
+            }
+            .detail-img {
+                width: 100%;
+            }
+            main {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-overlay"></div>
+    
+    <header>
+        <a href="/" class="logo">NEXTTOPPERS</a>
+        <div id="user-info" style="font-size: 14px; color: var(--text-secondary);"></div>
+    </header>
+
+    <main>
+        <!-- Home View -->
+        <div id="home-view" class="view active">
+            <div class="search-container">
+                <input type="text" id="search-batches" class="search-input" placeholder="Search batches...">
+            </div>
+            <div id="batches-loader" class="loading">Loading batches...</div>
+            <div id="batch-grid" class="batch-grid"></div>
+        </div>
+
+        <!-- Batch Detail View -->
+        <div id="batch-view" class="view">
+            <button class="back-btn" onclick="showView('home-view')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Batches
+            </button>
+            
+            <div id="batch-header-container"></div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('subjects')">Subjects</div>
+                <div class="tab" onclick="switchTab('announcements')">Announcements</div>
+                <div class="tab" onclick="switchTab('tests')">Tests</div>
+            </div>
+
+            <div id="tab-content">
+                <div id="subjects-list"></div>
+                <div id="announcements-list" style="display: none;"></div>
+                <div id="tests-list" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Topics View -->
+        <div id="topics-view" class="view">
+            <button class="back-btn" onclick="showView('batch-view')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Subjects
+            </button>
+            <h2 id="subject-title" style="margin-bottom: 24px; font-family: 'Teko'; font-size: 32px;"></h2>
+            <div id="topics-list"></div>
+        </div>
+
+        <!-- Contents View -->
+        <div id="contents-view" class="view">
+            <button class="back-btn" onclick="showView('topics-view')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Topics
+            </button>
+            <h2 id="topic-title" style="margin-bottom: 24px; font-family: 'Teko'; font-size: 32px;"></h2>
+            <div id="contents-list"></div>
+        </div>
+    </main>
+
+    <script>
+        let allBatches = [];
+        let currentBatchId = null;
+        let currentSubjectId = null;
+        let currentSubjectSlug = null;
+        let accessToken = null;
+
+        // Unified fetcher through local proxy
+        async function apiFetch(endpoint, target, params = {}, options = {}) {
+            const queryParams = new URLSearchParams({ endpoint, target, ...params });
+            const url = `/course?${queryParams.toString()}`;
+            
+            const fetchOptions = {
+                method: options.method || 'GET',
+                headers: {
+                    ...options.headers
+                }
+            };
+
+            if (options.body) {
+                fetchOptions.body = JSON.stringify(options.body);
+            }
+
+            const res = await fetch(url, fetchOptions);
+            return res.json();
+        }
+
+        async function init() {
+            try {
+                // Common signatures
+                const headers = {
+                    'dev-jisu-key': '1780669498',
+                    'dev-jisu-protection-signature': 'T/xPudNil+srmWOcEcVJCHqWN8S8j8k+IJ1exC2+DaY=',
+                    'dev-jisu-signature': 'cFKgP2e2p5HfqvMpjrjZuw3cC8SDq2q7G4wB3bNA3fM='
+                };
+
+                // Fetch Token through proxy
+                const tokenResponse = await apiFetch('api/token-proxy.php', 'studyratna', {}, { headers });
+                if (tokenResponse.success) {
+                    accessToken = tokenResponse.access_token;
+                    document.getElementById('user-info').textContent = `Welcome, ${tokenResponse.user_id}`;
+                }
+
+                // Fetch Batches
+                const batchesData = await fetch('https://raw.githubusercontent.com/semfy-gros/retna/main/batches_cache.json?v=1780668493481').then(r => r.json());
+                allBatches = batchesData.batches;
+                renderBatches(allBatches);
+                document.getElementById('batches-loader').style.display = 'none';
+            } catch (error) {
+                console.error('Init error:', error);
+                document.getElementById('batches-loader').textContent = 'Failed to load batches.';
+            }
+        }
+
+        function renderBatches(batches) {
+            const grid = document.getElementById('batch-grid');
+            grid.innerHTML = batches.map(batch => `
+                <div class="batch-card" onclick="openBatch('${batch.batch_id}')">
+                    <img src="${batch.photo}" class="batch-photo" loading="lazy">
+                    <div class="batch-info">
+                        <div class="batch-name">${batch.name}</div>
+                        <div class="batch-tagline">${batch.byName}</div>
+                        <div class="batch-meta">
+                            <span>${batch.language} • ${batch.class}th</span>
+                            <span>₹${batch.amount}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function openBatch(batchId) {
+            currentBatchId = batchId;
+            showView('batch-view');
+            document.getElementById('batch-header-container').innerHTML = '<div class="loading">Loading details...</div>';
+            
+            try {
+                const details = await apiFetch(`v3/batches/${batchId}/details`, 'penpencil', {}, {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                
+                if (details.success) {
+                    const batch = details.data;
+                    renderBatchDetails(batch);
+                }
+            } catch (error) {
+                console.error('Error fetching batch details:', error);
+            }
+        }
+
+        function renderBatchDetails(batch) {
+            const header = document.getElementById('batch-header-container');
+            const imgUrl = batch.previewImage?.baseUrl && batch.previewImage?.key ? 
+                           `${batch.previewImage.baseUrl}${batch.previewImage.key}` : 
+                           (batch.config?.previewImageUrl ? `https://static.pw.live/${batch.config.previewImageUrl}` : '');
+
+            header.innerHTML = `
+                <div class="detail-header">
+                    <img src="${imgUrl}" class="detail-img">
+                    <div class="detail-content">
+                        <h1 class="detail-title">${batch.name}</h1>
+                        <p class="detail-desc">${batch.byName}</p>
+                        <div style="display: flex; gap: 16px; margin-top: 16px;">
+                            <span style="color: var(--accent);">Starts: ${new Date(batch.startDate).toLocaleDateString()}</span>
+                            <span style="color: var(--accent);">Ends: ${new Date(batch.endDate).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const subjectsList = document.getElementById('subjects-list');
+            subjectsList.innerHTML = batch.subjects.map(sub => `
+                <div class="list-item" onclick="openSubject('${sub._id}', '${sub.subject}', '${sub.slug}')">
+                    <div class="list-item-icon">📚</div>
+                    <div class="list-item-content">
+                        <h3>${sub.subject}</h3>
+                        <p>${sub.lectureCount} Lectures</p>
+                    </div>
+                </div>
+            `).join('');
+
+            loadAnnouncements(currentBatchId);
+            loadTests(currentBatchId);
+            switchTab('subjects');
+        }
+
+        async function loadAnnouncements(batchId) {
+            try {
+                const data = await apiFetch(`v1/batches/${batchId}/announcement`, 'penpencil', { page: 1 }, {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                const list = document.getElementById('announcements-list');
+                if (data.data && data.data.length > 0) {
+                    list.innerHTML = data.data.map(ann => `
+                        <div class="announcement-card">
+                            <div class="announcement-date">${new Date(ann.createdAt).toLocaleString()}</div>
+                            <div class="announcement-text">${ann.announcement}</div>
+                        </div>
+                    `).join('');
+                } else {
+                    list.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No announcements found.</p>';
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadTests(batchId) {
+            try {
+                const data = await apiFetch(`v3/test-service/tests/filters`, 'penpencil', { batchId }, {
+                    headers: { 
+                        'Authorization': `Bearer ${accessToken}`,
+                        'client-id': '5eb393ee95fab7468a79d189'
+                    }
+                });
+                const list = document.getElementById('tests-list');
+                if (data.data && data.data.categorySections) {
+                    list.innerHTML = data.data.categorySections.map(cat => `
+                        <div style="margin-bottom: 24px;">
+                            <h3 style="margin-bottom: 12px; color: var(--accent);">${cat.categoryName}</h3>
+                            <p style="font-size: 14px; color: var(--text-secondary);">Tests available in this category.</p>
+                        </div>
+                    `).join('');
+                } else {
+                    list.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No tests found.</p>';
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function openSubject(subjectId, subjectName, subjectSlug) {
+            currentSubjectId = subjectId;
+            currentSubjectSlug = subjectSlug;
+            showView('topics-view');
+            document.getElementById('subject-title').textContent = subjectName;
+            document.getElementById('topics-list').innerHTML = '<div class="loading">Loading topics...</div>';
+
+            try {
+                const data = await apiFetch(`v1/batches/${currentBatchId}/subject/${subjectId}/topics`, 'penpencil', { page: 1, limit: 20 }, {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                const list = document.getElementById('topics-list');
+                list.innerHTML = data.data.map(topic => `
+                    <div class="list-item" onclick="openTopic('${topic._id}', '${topic.name}', '${topic.slug}')">
+                        <div class="list-item-icon">🔖</div>
+                        <div class="list-item-content">
+                            <h3>${topic.name}</h3>
+                            <p>${topic.videos} Videos • ${topic.notes} Notes</p>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) { console.error(e); }
+        }
+
+        async function openTopic(topicId, topicName, topicSlug) {
+            showView('contents-view');
+            document.getElementById('topic-title').textContent = topicName;
+            document.getElementById('contents-list').innerHTML = '<div class="loading">Loading content...</div>';
+
+            try {
+                const params = {
+                    topic_slug: topicSlug,
+                    type: 'videos',
+                    api_type: 'new',
+                    token: accessToken,
+                    page: 1,
+                    batch_id: currentBatchId,
+                    subject_slug: currentSubjectSlug,
+                    content_type: 'new',
+                    encrypt: 0,
+                    subject_id: currentSubjectId,
+                    topic_id: topicId
+                };
+                
+                const headers = {
+                    'dev-jisu-key': '1780669498',
+                    'dev-jisu-protection-signature': 'T/xPudNil+srmWOcEcVJCHqWN8S8j8k+IJ1exC2+DaY=',
+                    'dev-jisu-signature': 'cFKgP2e2p5HfqvMpjrjZuw3cC8SDq2q7G4wB3bNA3fM='
+                };
+
+                const data = await apiFetch('api/contents.php', 'studyratna', params, { headers });
+                const list = document.getElementById('contents-list');
+                
+                if (data.data && data.data.length > 0) {
+                    list.innerHTML = data.data.map(content => `
+                        <div class="list-item" onclick="playContent('${content.url}', '${content.name}')">
+                            <div class="list-item-icon">▶️</div>
+                            <div class="list-item-content">
+                                <h3>${content.name}</h3>
+                                <p>${content.duration || ''} • ${content.date || ''}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    list.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No content found.</p>';
+                }
+            } catch (e) { 
+                console.error(e); 
+                document.getElementById('contents-list').textContent = 'Error loading content.';
+            }
+        }
+
+        function playContent(url, name) {
+            if (url) {
+                window.location.href = `/player?video_url=${encodeURIComponent(url)}&title=${encodeURIComponent(name)}`;
+            }
+        }
+
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.remove('active');
+                if (t.textContent.toLowerCase() === tabId.toLowerCase()) t.classList.add('active');
+            });
+            
+            document.getElementById('subjects-list').style.display = 'none';
+            document.getElementById('announcements-list').style.display = 'none';
+            document.getElementById('tests-list').style.display = 'none';
+            
+            document.getElementById(`${tabId}-list`).style.display = 'block';
+        }
+
+        document.getElementById('search-batches').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = allBatches.filter(b => b.name.toLowerCase().includes(query) || b.byName.toLowerCase().includes(query));
+            renderBatches(filtered);
+        });
+
+        init();
+    </script>
+</body>
+</html>
