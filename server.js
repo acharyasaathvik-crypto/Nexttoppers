@@ -77,7 +77,7 @@ app.all('/course', async (req, res) => {
             'Sec-Ch-Ua-Platform': '"Windows"',
             'app_id': '1770981347',
             'platform': '3',
-            'user_id': (method === 'POST' ? req.body.user_id : req.query.user_id) || '4305267',
+            'user_id': (method === 'POST' ? req.body.user_id : req.query.user_id) || '2850138',
             'version': '1',
             'Content-Type': 'application/json'
         };
