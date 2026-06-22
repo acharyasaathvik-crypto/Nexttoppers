@@ -870,8 +870,7 @@ async function fetchSanskritData(layer = 0, params = {}) {
       type: params.type || 'content'
     };
     
-    // Ensure both tile and title are synced as per proxy logic
-    body.title_id = body.tile_id;
+    // No extra params — API spec only needs the above fields
   }
 
   // Use the local proxy via API helper

@@ -153,9 +153,11 @@ app.all('/course', async (req, res) => {
     } else if (target === 'studyratna') {
         targetUrl = `https://stream.studyratna.cc/${endpoint}`;
     } else {
+        // API migrated to simple GET with all params in query string
         const finalEndpoint = endpoint || 'course-details';
-        targetUrl = `https://apiserver.deltastudy.site/api/mastersahab/course?endpoint=${finalEndpoint}`;
-        headers['Content-Type'] = 'application/json';
+        targetUrl = `https://api.thescholarverse.site/master-sahab/course?endpoint=${finalEndpoint}`;
+        targetMethod = 'GET'; // Force GET — new API no longer accepts POST
+        delete headers['Content-Type']; // No request body for GET
     }
 
     // Append params for GET requests
