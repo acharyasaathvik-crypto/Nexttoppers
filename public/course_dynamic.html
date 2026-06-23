@@ -1351,7 +1351,7 @@ function renderSanskritContent() {
       const itemJson = JSON.stringify(item).replace(/'/g,"&apos;");
       const icon = item.file_type === '3' ? '🎬' : '📄';
       const isLiveNow = item.is_live == 1;
-      const isScheduled = item.video_type == 8;
+      const isScheduled = item.video_type == 3;
 
       let badgeHtml = `<div class="pkg-badge">${icon} ${item.file_type === '3' ? 'Video' : 'PDF'}</div>`;
       if (isLiveNow) {
