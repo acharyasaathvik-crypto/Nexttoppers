@@ -667,6 +667,7 @@ canvas#fireCanvas {
 
 <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="player_decrypt.js"></script>
 <script src="api-helper.js"></script>
 
 <script>
@@ -824,11 +825,19 @@ async function loadVideo() {
   }
   showLoader('Fetching URL...');
   try {
-    const data = await API.get('content-details', { 
+    let data = await API.get('content-details', { 
         content_id: contentId, 
         course_id: courseId,
         user_id: currentUserId
     }, 'nexttoppers-course');
+    
+    if (typeof EduVibeDecrypt !== 'undefined' && typeof data.data === 'string') {
+        try {
+            data = await EduVibeDecrypt.decryptResponse(data);
+        } catch (err) {
+            console.error('Decryption error:', err);
+        }
+    }
     
     const video = document.getElementById('videoPlayer');
     
