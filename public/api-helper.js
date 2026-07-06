@@ -5,7 +5,7 @@
 
 const API = {
     // The master token for all Nexttoppers requests
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyODUwMTM4LCJhcHBfaWQiOiIxNzcwOTgxMzQ3IiwiZGV2aWNlX2lkIjoiMTU1MTE3ODctZGNiYS00NGFjLWI3NmYtZTAyYjBmYWMyYTVmIiwicGxhdGZvcm0iOiIzIiwidXNlcl90eXBlIjoxLCJpYXQiOjE3ODMzNDA5MDksImV4cCI6MTc4NTkzMjkwOX0.AN-Y1GHgjW1lnfkAzFzkwwMegcm4-FBQNBdNOXyXylg',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyODUwMTM4LCJhcHBfaWQiOiIxNzcwOTgxMzQ3IiwiZGV2aWNlX2lkIjoiMTU1MTE3ODctZGNiYS00NGFjLWI3NmYtZTAyYjBmYWMyYTVmIiwicGxhdGZvcm0iOiIzIiwidXNlcl90eXBlIjoxLCJpYXQiOjE3ODMzNDkwMDEsImV4cCI6MTc4NTk0MTAwMX0.Rx84CgggAFA4bcWTaR-GQadiKtWz-ikqqrWyK2N8rvE',
 
     /**
      * Base fetcher for GET requests to the local proxy
