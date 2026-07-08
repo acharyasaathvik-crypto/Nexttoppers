@@ -712,6 +712,7 @@ footer {
 </footer>
 
 <script src="sanskrit_data.js"></script>
+<script src="player_decrypt.js"></script>
 <script src="api-helper.js"></script>
 <script>
 /* FIRE PARTICLES ANIMATION */
@@ -1479,17 +1480,30 @@ async function handleItem(item) {
 
   showLoader(true);
   try {
-    const res = await API.post('content_details', {
-      action: 'content_details',
+    let res = await API.get('content-details', {
       content_id: id,
       course_id: COURSE_ID
-    }, 'nexttoppers-extra');
+    }, 'nexttoppers-course');
 
-    if (res.type === 'pdf' && res.url) {
-      win.location.href = res.url;
+    if (typeof EduVibeDecrypt !== 'undefined' && typeof res.data === 'string') {
+        try {
+            res = await EduVibeDecrypt.decryptResponse(res);
+        } catch (err) {
+            console.error('Decryption error:', err);
+        }
+    }
+
+    if ((res.success || res.status) && res.data) {
+      const pdfUrl = res.data.file_url || res.data.url || res.data.pdf_view_url;
+      if (pdfUrl) {
+        win.location.href = pdfUrl;
+      } else {
+        win.close();
+        showToast('Document URL not found in response');
+      }
     } else {
       win.close();
-      showToast(res.error || 'Unable to open file');
+      showToast(res.message || 'Unable to open file');
     }
   } catch (e) { 
     win.close();
