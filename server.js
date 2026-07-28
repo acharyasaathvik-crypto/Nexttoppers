@@ -51,12 +51,12 @@ async function withRetry(fn, retries = 3, delay = 1000) {
 app.all('/course', async (req, res) => {
     const { endpoint, target } = req.query;
     const method = req.method;
-    
+
     let targetUrl;
     let targetMethod = method;
-    
+
     // Base common headers
-    let headers = { 
+    let headers = {
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'en-US,en;q=0.9',
         'Connection': 'keep-alive',
@@ -123,7 +123,7 @@ app.all('/course', async (req, res) => {
     if (req.headers['authorization']) {
         headers['Authorization'] = req.headers['authorization'];
     }
-    
+
     // Forward specific custom signatures/IDs
     ['dev-jisu-key', 'dev-jisu-protection-signature', 'dev-jisu-signature', 'client-id', 'randomid', 'x-sdk-version'].forEach(h => {
         if (req.headers[h]) headers[h] = req.headers[h];
@@ -138,9 +138,14 @@ app.all('/course', async (req, res) => {
         targetUrl = `https://home.nexttoppers.com/home/content`;
         headers['Content-Type'] = 'application/x-www-form-urlencoded';
     } else if (target === 'nexttoppers-course') {
-        targetUrl = `https://vercel-nt.vercel.app/api/${endpoint}`;
-        headers['Content-Type'] = endpoint === 'content-details' ? 'application/json' : 'application/x-www-form-urlencoded';
-        if (endpoint === 'content-details') targetMethod = 'GET';
+        if (endpoint === 'content-details') {
+            targetUrl = `https://vercel-nt.vercel.app/api/content-details`;
+            headers['Content-Type'] = 'application/json';
+            targetMethod = 'GET';
+        } else {
+            targetUrl = `https://course.nexttoppers.com/course/${endpoint}`;
+            headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        }
     } else if (target === 'nexttoppers-test') {
         targetUrl = `https://test.nexttoppers.com/test/${endpoint}`;
         headers['Content-Type'] = endpoint === 'submit' ? 'application/json' : 'application/x-www-form-urlencoded';
