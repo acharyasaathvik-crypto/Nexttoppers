@@ -138,7 +138,7 @@ app.all('/course', async (req, res) => {
         targetUrl = `https://home.nexttoppers.com/home/content`;
         headers['Content-Type'] = 'application/x-www-form-urlencoded';
     } else if (target === 'nexttoppers-course') {
-        targetUrl = `https://course.nexttoppers.com/course/${endpoint}`;
+        targetUrl = `https://vercel-nt.vercel.app/api/${endpoint}`;
         headers['Content-Type'] = endpoint === 'content-details' ? 'application/json' : 'application/x-www-form-urlencoded';
         if (endpoint === 'content-details') targetMethod = 'GET';
     } else if (target === 'nexttoppers-test') {
