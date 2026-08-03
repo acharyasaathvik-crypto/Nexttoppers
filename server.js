@@ -139,7 +139,7 @@ app.all('/course', async (req, res) => {
         headers['Content-Type'] = 'application/x-www-form-urlencoded';
     } else if (target === 'nexttoppers-course') {
         if (endpoint === 'content-details') {
-            targetUrl = `https://vercel-nt.vercel.app/api/content-details`;
+            targetUrl = `https://hardik-test-1f61195f7dd2.herokuapp.com/content-details`;
             headers['Content-Type'] = 'application/json';
             targetMethod = 'GET';
         } else {
