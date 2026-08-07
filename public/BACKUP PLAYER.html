@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NEXTTOPPERS | Backup Play Mode</title>
+    
+    <link rel="icon" href="https://i.ibb.co/yF4mhNPB/f493d534-fbf8-4b31-b741-83b343f8a9e1.jpg" type="image/jpeg">  
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Plyr & HLS for Premium Video Playback -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+    <!-- Tailwind Config for Premium Yellow Theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        themeBg: '#050505',
+                        cardBg: '#0a0a0c',
+                        cardHover: '#121214',
+                        themeYellow: '#FACC15',
+                        themeAmber: '#F59E0B',
+                        themeGreen: '#10B981',
+                        themeRed: '#EF4444',
+                        textDim: '#8A8A8A'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        syne: ['Syne', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- 🛡️ ANTI-INSPECT / DEVTOOLS BLOCKER 🛡️ -->
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function (e) {
+            if (e.keyCode == 123) return false; 
+            if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) return false; 
+            if (e.ctrlKey && (e.keyCode == 85)) { 
+                window.location.href = "error.html";
+                return false; 
+            }
+        };
+
+        (function blockDevTools() {
+            try {
+                var startTime = new Date().getTime();
+                debugger; 
+                var endTime = new Date().getTime();
+                
+                if (endTime - startTime > 100) { window.location.href = 'error.html'; }
+                setTimeout(blockDevTools, 500); 
+            } catch (e) {}
+        })();
+    </script>
+
+    <style>
+        body { background-color: #050505; color: #d6d3d1; scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+        
+        .bg-yellow-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(250, 204, 21, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(250, 204, 21, 0.03) 1px, transparent 1px);
+            mask-image: radial-gradient(ellipse at top center, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at top center, black 40%, transparent 80%);
+            animation: gridPulse 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes gridPulse { 0% { opacity: 0.5; transform: scale(1); } 100% { opacity: 1; transform: scale(1.05); } }
+        
+        .glass-panel { background: rgba(10, 10, 12, 0.75); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 30px 60px -15px rgba(0,0,0,0.8); }
+        .btn-click-effect { transition: transform 0.15s ease-out; }
+        .btn-click-effect:active { transform: scale(0.92); }
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px) scale(0.98); filter: blur(4px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+        
+        /* PLYR CUSTOMIZATION */
+        :root {
+            --plyr-color-main: #FACC15;
+            --plyr-video-control-color-hover: #000;
+            --plyr-video-control-background-hover: #FACC15;
+            --plyr-menu-background: #0a0a0c;
+            --plyr-menu-color: #fff;
+            --plyr-tooltip-background: #FACC15;
+            --plyr-tooltip-color: #000;
+        }
+
+        .plyr { border-radius: 1.5rem; width: 100%; height: 100%; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8); background: #000; }
+        
+        .plyr__control--overlaid {
+            background: rgba(250, 204, 21, 0.9) !important; color: #000 !important; padding: 1.5rem !important; box-shadow: 0 0 30px rgba(250, 204, 21, 0.5) !important; transition: all 0.3s ease !important;
+        }
+        .plyr__control--overlaid:hover { transform: scale(1.1) !important; background: rgba(250, 204, 21, 1) !important; box-shadow: 0 0 40px rgba(250, 204, 21, 0.8) !important; }
+        .plyr__control--overlaid svg { width: 2rem !important; height: 2rem !important; }
+
+        .plyr--fullscreen-fallback, .plyr:-webkit-full-screen, .plyr:fullscreen { border-radius: 0 !important; }
+        .plyr__controls { background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%) !important; padding-bottom: calc(15px + env(safe-area-inset-bottom)) !important; }
+        .plyr__controls .custom-icon-svg { fill: none !important; }
+        .plyr__controls .custom-icon-text { fill: currentColor !important; stroke: none !important; }
+
+        .plyr__progress { flex: 1 1 40% !important; }
+        @media (max-width: 768px) { .plyr__volume { max-width: 60px !important; min-width: 40px !important; } .plyr__time { font-size: 11px !important; } }
+
+        .control-btn {
+            background: #111111; color: #8A8A8A; border: 1px solid rgba(255,255,255,0.05); padding: 0.5rem 1.25rem; border-radius: 0.75rem; font-size: 0.75rem; font-weight: 700; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;
+        }
+        .control-btn:hover { background: #1a1a1a; color: #fff; border-color: rgba(250, 204, 21, 0.4); }
+        .control-btn.active { background: #FACC15; color: #000; border-color: #FACC15; box-shadow: 0 0 15px rgba(250, 204, 21, 0.3); }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.15; }
+            33% { transform: translate(30px, -50px) scale(1.1) rotate(120deg); opacity: 0.25; }
+            66% { transform: translate(-20px, 20px) scale(0.9) rotate(240deg); opacity: 0.2; }
+            100% { transform: translate(0, 0) scale(1) rotate(360deg); opacity: 0.15; }
+        }
+        .orb-1 { animation: drift 15s infinite ease-in-out; }
+        .orb-2 { animation: drift 20s infinite ease-in-out reverse; }
+        input:focus { outline: none; box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.3); }
+    </style>
+</head>
+<body class="min-h-screen selection:bg-themeYellow/30 relative flex flex-col font-sans overflow-x-hidden">
+
+    <div class="fixed inset-0 pointer-events-none bg-yellow-grid z-[-1]"></div>
+    <div class="fixed top-[-10%] left-[-5%] w-[400px] h-[400px] bg-themeYellow rounded-full blur-[150px] pointer-events-none z-[-1] orb-1"></div>
+    <div class="fixed bottom-[-15%] right-[-5%] w-[500px] h-[500px] bg-themeAmber rounded-full blur-[160px] pointer-events-none z-[-1] orb-2 opacity-50"></div>
+
+    <div id="custom-toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transform translate-y-[-100px] opacity-0 transition-all duration-400 pointer-events-none">
+        <div class="bg-cardBg border border-themeYellow/30 px-6 py-4 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.9)] flex items-center gap-3 max-w-md">
+            <div id="toast-icon-container" class="w-8 h-8 rounded-xl flex items-center justify-center bg-themeYellow/10 text-themeYellow">
+                <i id="toast-icon" data-lucide="bell" class="w-4 h-4"></i>
+            </div>
+            <div>
+                <p id="toast-msg" class="text-xs font-bold text-white leading-snug"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Navbar -->
+    <nav class="w-full z-40 bg-[#050505]/80 backdrop-blur-2xl border-b border-white/5 h-[70px] flex-shrink-0 shadow-2xl sticky top-0">
+        <div class="max-w-[90rem] mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <button onclick="goBack()" class="p-2 sm:p-2.5 bg-cardBg border border-white/5 hover:bg-themeYellow hover:text-black hover:border-themeYellow rounded-xl transition-all btn-click-effect text-textDim flex items-center gap-2 shadow-sm group">
+                    <i data-lucide="arrow-left" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    <span class="text-xs font-black hidden sm:block uppercase tracking-widest group-hover:text-black">Back</span>
+                </button>
+                <div class="hidden md:flex items-center gap-3 ml-4">
+                    <div class="relative w-8 h-8">
+                        <div class="absolute inset-0 bg-themeYellow/30 rounded-full animate-ping"></div>
+                        <img src="data:image/png;base64,zII7UW7QIHydLuPwKcHhgMfBQ58FDjwiSAdBT4KcAosCzewP4xe7n+vd2WuuFQZzlQbq6QAAAAASUVORK5CYII=" alt="Nexttoppers Logo" class="w-full h-full rounded-full object-cover shadow-[0_0_15px_rgba(250,204,21,0.3)] border border-white/10 relative z-10">
+                    </div>
+                    <h1 class="text-lg font-black tracking-[0.2em] text-white font-syne">NEXT<span class="text-themeYellow drop-shadow-[0_0_8px_rgba(250,204,21,0.5)]">TOPPERS</span></h1>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 bg-cardBg border border-themeAmber/30 px-4 py-2 rounded-2xl shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+                    <div class="w-2 h-2 bg-themeAmber rounded-full animate-pulse shadow-[0_0_8px_rgba(245,158,11,0.6)]"></div>
+                    <span class="text-[10px] font-black text-themeAmber uppercase tracking-widest">Backup Player</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col justify-center min-h-[calc(100vh-70px)] relative z-10">
+        
+        <!-- STATE 1: INITIAL LOADER -->
+        <div id="resolver-overlay" class="flex flex-col items-center justify-center py-24 fade-in">
+            <div class="relative w-16 h-16 mb-5">
+                <div class="absolute inset-0 rounded-full border-t-4 border-themeYellow animate-spin"></div>
+                <div class="absolute inset-2 rounded-full border-r-4 border-themeAmber animate-spin" style="animation-direction: reverse; animation-duration: 0.8s;"></div>
+            </div>
+            <p id="loader-text" class="text-themeYellow font-black uppercase tracking-widest text-xs animate-pulse drop-shadow-md">Connecting to Backup Server...</p>
+            <p class="text-textDim font-bold text-[10px] mt-2 uppercase tracking-widest">Fetching from Firebase</p>
+        </div>
+
+        <!-- STATE 2: FALLBACK / REDIRECT STATE -->
+        <div id="fallback-state" class="hidden flex-col items-center justify-center py-16 fade-in text-center">
+            <div id="fallback-icon-container" class="w-24 h-24 bg-cardBg border border-themeYellow/20 rounded-full flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(250,204,21,0.15)] relative overflow-hidden">
+                <div class="absolute inset-0 bg-themeYellow/5 rounded-full animate-ping"></div>
+                <i id="fallback-icon" data-lucide="external-link" class="w-10 h-10 text-themeYellow relative z-10"></i>
+            </div>
+            <h2 id="fallback-title" class="text-2xl font-black text-white mb-2 tracking-wide font-syne">Content Ready</h2>
+            <p id="fallback-message" class="text-stone-400 text-sm font-bold mb-8 text-center max-w-md">Choose how you'd like to open this content.</p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md px-4">
+                <button id="fallback-action-btn" class="w-full sm:w-auto bg-themeYellow text-black font-black uppercase tracking-wider px-6 py-3.5 rounded-xl hover:bg-yellow-400 transition-all btn-click-effect shadow-[0_0_20px_rgba(250,204,21,0.4)] text-xs flex items-center justify-center gap-2 border border-transparent">
+                    <i data-lucide="external-link" class="w-4 h-4 text-black"></i> <span id="fallback-action-text">Open Content</span>
+                </button>
+                <button onclick="goBack()" class="w-full sm:w-auto bg-cardBg text-stone-400 border border-white/10 font-bold uppercase tracking-wider px-6 py-3.5 rounded-xl hover:bg-cardHover hover:text-white hover:border-white/20 transition-all btn-click-effect text-xs flex items-center justify-center gap-2">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Go Back
+                </button>
+            </div>
+        </div>
+
+        <!-- STATE 3: VIDEO PLAYER STATE -->
+        <div id="player-container" class="hidden flex-col w-full fade-in">
+            <div id="player-wrapper" class="w-full aspect-video relative shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-white/5 mb-6 mx-auto max-w-5xl rounded-[1.5rem] bg-[#050505]">
+                
+                <!-- Plyr Mount Point -->
+                <div id="plyr-wrapper" class="w-full h-full hidden absolute inset-0 z-10 rounded-[1.5rem] overflow-hidden">
+                    <video id="plyr-video" class="w-full h-full" playsinline></video>
+                </div>
+
+                <!-- YouTube Mount Point -->
+                <div id="yt-player" class="w-full h-full hidden absolute inset-0 z-10 pointer-events-auto rounded-[1.5rem] overflow-hidden"></div>
+            </div>
+            
+            <div class="max-w-5xl w-full mx-auto glass-panel p-5 sm:p-7 rounded-[1.5rem] flex flex-col shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-themeYellow/5 blur-3xl rounded-full pointer-events-none"></div>
+                
+                <div class="flex justify-between items-start relative z-10">
+                    <div>
+                        <div class="inline-flex items-center gap-1.5 bg-themeAmber/10 border border-themeAmber/30 px-3 py-1 rounded-md mb-3 shadow-inner">
+                            <span class="text-[10px] font-black text-themeAmber uppercase tracking-widest">Backup Player Active</span>
+                        </div>
+                        <h1 id="video-title" class="font-syne text-xl sm:text-2xl md:text-3xl font-black text-white leading-tight drop-shadow-md">Loading Title...</h1>
+                    </div>
+                    <span id="live-badge" class="hidden bg-gradient-to-r from-red-600 to-orange-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg shadow-[0_0_20px_rgba(239,68,68,0.6)] border border-red-400 flex items-center gap-1.5 mt-1">
+                        <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span> LIVE
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-6 mt-6 border-t border-white/5 relative z-10">
+                    <div>
+                        <div class="text-xs font-bold text-textDim mb-3 flex items-center gap-2 uppercase tracking-widest">
+                            <i data-lucide="settings" class="w-4 h-4 text-themeYellow"></i> Video Quality
+                        </div>
+                        <div id="quality-controls" class="flex flex-wrap gap-2">
+                            <span class="text-stone-600 text-xs animate-pulse font-medium">Detecting streams...</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="text-xs font-bold text-textDim mb-3 flex items-center gap-2 uppercase tracking-widest">
+                            <i data-lucide="gauge" class="w-4 h-4 text-themeYellow"></i> Playback Speed
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="setSpeed(0.5)" data-val="0.5" class="control-btn speed-btn">0.5x</button>
+                            <button onclick="setSpeed(1.0)" data-val="1.0" class="control-btn speed-btn active">1.0x</button>
+                            <button onclick="setSpeed(1.5)" data-val="1.5" class="control-btn speed-btn">1.5x</button>
+                            <button onclick="setSpeed(2.0)" data-val="2.0" class="control-btn speed-btn">2.0x</button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="text-xs font-bold text-textDim mb-3 flex items-center gap-2 uppercase tracking-widest">
+                            <i data-lucide="monitor" class="w-4 h-4 text-themeYellow"></i> Display
+                        </div>
+                        <button onclick="toggleFullScreen()" class="control-btn w-full flex items-center justify-center gap-2 text-themeYellow border-themeYellow/30 hover:bg-themeYellow hover:text-black hover:border-transparent">
+                            <i data-lucide="maximize" class="w-4 h-4"></i> Full Screen
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Using REST API for maximum speed instead of heavy Firebase SDK
+        lucide.createIcons();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const COURSE_ID = urlParams.get('courseId') || urlParams.get('id'); 
+        const CONTENT_ID = urlParams.get('contentId');
+
+        window.playerInstance = null;
+        window.hlsInstance = null;
+        
+        window.goBack = function() {
+            window.close();
+        };
+
+        window.showToast = function(message, type = 'info') {
+            const toast = document.getElementById('custom-toast');
+            const toastMsg = document.getElementById('toast-msg');
+            const toastIcon = document.getElementById('toast-icon');
+            const toastIconContainer = document.getElementById('toast-icon-container');
+
+            toastMsg.innerText = message;
+            if (type === 'error') {
+                toastIconContainer.className = "w-8 h-8 rounded-xl flex items-center justify-center bg-red-500/10 text-themeRed border border-red-500/20";
+                toastIcon.setAttribute('data-lucide', 'alert-triangle');
+            } else if (type === 'success') {
+                toastIconContainer.className = "w-8 h-8 rounded-xl flex items-center justify-center bg-themeGreen/10 text-themeGreen border border-themeGreen/20";
+                toastIcon.setAttribute('data-lucide', 'check-circle');
+            } else {
+                toastIconContainer.className = "w-8 h-8 rounded-xl flex items-center justify-center bg-themeYellow/10 text-themeYellow border border-themeYellow/20";
+                toastIcon.setAttribute('data-lucide', 'bell');
+            }
+
+            lucide.createIcons({root: toastIconContainer});
+            toast.classList.remove('opacity-0', 'translate-y-[-100px]', 'pointer-events-none');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-100px]', 'pointer-events-none');
+                toast.classList.remove('opacity-100', 'translate-y-0');
+            }, 3000);
+        };
+
+        function showState(stateId) {
+            const states = ['resolver-overlay', 'fallback-state', 'player-container'];
+            states.forEach(id => {
+                const el = document.getElementById(id);
+                if (id === stateId) { el.classList.remove('hidden'); el.classList.add('flex'); } 
+                else { el.classList.add('hidden'); el.classList.remove('flex'); }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!COURSE_ID || !CONTENT_ID) {
+                window.showToast("Course ID or Content ID is missing!", 'error');
+                setTimeout(window.goBack, 3000);
+                return;
+            }
+            resolveFromFirebase();
+        });
+
+        window.showFallbackState = function(message, iconName, title, actionText, targetUrl) {
+            showState('fallback-state');
+            const fallbackEl = document.getElementById('fallback-state');
+            const iconEl = document.getElementById('fallback-icon');
+            const iconContainer = document.getElementById('fallback-icon-container');
+            
+            document.getElementById('fallback-message').innerText = message;
+            document.getElementById('fallback-title').innerText = title;
+            document.getElementById('fallback-action-text').innerText = actionText;
+            
+            const actionBtn = document.getElementById('fallback-action-btn');
+            actionBtn.onclick = function() { window.location.href = targetUrl; };
+
+            try {
+                if (iconName === 'youtube' || iconName === 'file-text') {
+                    iconEl.setAttribute('data-lucide', iconName);
+                    iconEl.className = 'w-10 h-10 text-themeYellow relative z-10';
+                    iconContainer.className = 'w-24 h-24 bg-themeYellow/10 border border-themeYellow/20 rounded-full flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(250,204,21,0.2)] relative overflow-hidden';
+                } else {
+                    iconEl.setAttribute('data-lucide', 'external-link');
+                    iconEl.className = 'w-10 h-10 text-themeYellow relative z-10';
+                    iconContainer.className = 'w-24 h-24 bg-cardBg border border-themeYellow/20 rounded-full flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(250,204,21,0.15)] relative overflow-hidden';
+                }
+                iconContainer.innerHTML = '<div class="absolute inset-0 bg-themeYellow/5 rounded-full animate-ping"></div>' + iconContainer.innerHTML;
+                lucide.createIcons({root: fallbackEl});
+            } catch(e) {}
+        }
+
+        async function resolveFromFirebase() {
+            try {
+                // Fetch directly via REST API for maximum speed
+                const FIREBASE_API_KEY = "AIzaSyDzofhvQGWmgJAZbHGUVn96dITkrPPlu8Q";
+                const restUrl = `https://firestore.googleapis.com/v1/projects/stechshope/databases/(default)/documents/Courses/${COURSE_ID}/contents/${CONTENT_ID}?key=${FIREBASE_API_KEY}`;
+                
+                const response = await fetch(restUrl);
+                
+                if (response.ok) {
+                    const docSnap = await response.json();
+                    
+                    const getField = (key, defaultVal) => {
+                        if (!docSnap.fields || !docSnap.fields[key]) return defaultVal;
+                        const f = docSnap.fields[key];
+                        return f.stringValue !== undefined ? f.stringValue : 
+                               f.booleanValue !== undefined ? f.booleanValue : 
+                               f.integerValue !== undefined ? parseInt(f.integerValue, 10) : defaultVal;
+                    };
+
+                    const finalUrl = getField('file_url', '');
+                    
+                    if (!finalUrl || finalUrl === "") {
+                        window.showToast("Media link is broken in database.", 'error');
+                        setTimeout(window.goBack, 3000);
+                        return;
+                    }
+
+                    const lowerUrl = finalUrl.toLowerCase();
+                    const title = getField('title', 'Premium Video');
+                    const isLive = getField('is_live', false);
+                    
+                    // Fallback to checking URL if file_type string wasn't saved properly
+                    const savedFileType = getField('file_type', 'video');
+                    const isPdf = savedFileType === "pdf" || lowerUrl.includes('.pdf');
+                    const isYouTube = savedFileType === "youtube" || lowerUrl.includes('youtube.com') || lowerUrl.includes('youtu.be');
+
+                    if (isPdf) {
+                        window.showFallbackState("This is a PDF document. Please click below to view.", "file-text", "PDF Document Ready", "Open PDF", finalUrl);
+                        return; 
+                    } 
+                    
+                    if (isYouTube) {
+                        initYouTubePlayer(finalUrl, title, isLive);
+                        return;
+                    }
+
+                    if (!lowerUrl.includes('.mp4') && !lowerUrl.includes('.m3u8')) {
+                        window.showFallbackState("This format is not supported in the video player. Please open directly.", "external-link", "Content Ready", "Open Content", finalUrl);
+                        return;
+                    }
+
+                    let poster = getField('thumbnail', '');
+                    if (!poster || poster.trim() === "") {
+                        poster = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80";
+                    }
+                    
+                    initVideoPlayer(finalUrl, title, poster, isLive);
+
+                } else if (response.status === 404) {
+                    // Document doesn't exist in Firebase
+                    window.showToast("Media not found in Backup Database!", 'error');
+                    setTimeout(window.goBack, 3000);
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch(err) {
+                console.error("Firebase Read Error:", err);
+                window.showToast("Permission denied or database error.", 'error');
+                setTimeout(window.goBack, 3000);
+            }
+        }
+
+        function getYouTubeID(url) {
+            if (!url) return null;
+            if (/^[a-zA-Z0-9_-]{11}$/.test(url)) return url; 
+            let match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|live\/|shorts\/))([^?&#]+)/);
+            return match ? match[1] : url; 
+        }
+
+        function initYouTubePlayer(sourceUrl, title, isLive) {
+            showState('player-container');
+            document.getElementById('video-title').innerText = title;
+            if (isLive) {
+                document.getElementById('live-badge').classList.remove('hidden');
+                document.getElementById('live-badge').classList.add('flex');
+            }
+            document.getElementById('plyr-wrapper').classList.add('hidden');
+            const ytContainer = document.getElementById('yt-player');
+            ytContainer.classList.remove('hidden');
+            const ytId = getYouTubeID(sourceUrl);
+            
+            ytContainer.innerHTML = `<iframe 
+                src="https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&playsinline=1" 
+                class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+            </iframe>`;
+        }
+
+        function initVideoPlayer(sourceUrl, title, poster, isLive) {
+            showState('player-container');
+            document.getElementById('video-title').innerText = title;
+            if (isLive) {
+                document.getElementById('live-badge').classList.remove('hidden');
+                document.getElementById('live-badge').classList.add('flex');
+            }
+
+            document.getElementById('plyr-wrapper').classList.remove('hidden');
+            document.getElementById('yt-player').classList.add('hidden');
+
+            const video = document.getElementById('plyr-video');
+            video.poster = poster;
+
+            if (window.playerInstance) { window.playerInstance.destroy(); }
+            if (window.hlsInstance) { window.hlsInstance.destroy(); }
+
+            const defaultOptions = {
+                controls: [
+                    'play-large', 'rewind', 'play', 'fast-forward', 
+                    'progress', 'current-time', 'duration', 
+                    'mute', 'volume', 'fullscreen'
+                ],
+                seekTime: 10, autoplay: true, keyboard: { focused: true, global: true }
+            };
+
+            if (sourceUrl.includes('.m3u8') && Hls.isSupported()) {
+                const hls = new Hls({ maxBufferLength: 60 });
+                hls.loadSource(sourceUrl);
+                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                    const qualityContainer = document.getElementById('quality-controls');
+                    if (qualityContainer) {
+                        let html = `<button onclick="setQuality(-1)" class="control-btn quality-btn active" data-val="-1">Auto</button>`;
+                        hls.levels.forEach((l, idx) => { html += `<button onclick="setQuality(${idx})" class="control-btn quality-btn" data-val="${idx}">${l.height}p</button>`; });
+                        qualityContainer.innerHTML = html;
+                    }
+                    window.playerInstance = new Plyr(video, defaultOptions);
+                    setupCustomPlyr(window.playerInstance);
+                });
+                hls.attachMedia(video);
+                window.hlsInstance = hls;
+            } else {
+                video.src = sourceUrl;
+                const qualityContainer = document.getElementById('quality-controls');
+                if (qualityContainer) qualityContainer.innerHTML = `<span class="text-stone-500 text-xs">Auto (Native)</span>`;
+                window.playerInstance = new Plyr(video, defaultOptions);
+                setupCustomPlyr(window.playerInstance);
+            }
+            lucide.createIcons();
+        }
+
+        function setupCustomPlyr(player) {
+            player.on('ready', () => {
+                const rewindBtn = document.querySelector('[data-plyr="rewind"]');
+                if (rewindBtn) {
+                    rewindBtn.innerHTML = `<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-icon-svg" style="width: 22px; height: 22px; margin: auto;"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><text x="12" y="16.5" font-size="7" font-weight="900" font-family="sans-serif" class="custom-icon-text" text-anchor="middle">10</text></svg>`;
+                }
+                const forwardBtn = document.querySelector('[data-plyr="fast-forward"]');
+                if (forwardBtn) {
+                    forwardBtn.innerHTML = `<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-icon-svg" style="width: 22px; height: 22px; margin: auto;"><path d="M21 12a9 9 0 1 1-9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><text x="12" y="16.5" font-size="7" font-weight="900" font-family="sans-serif" class="custom-icon-text" text-anchor="middle">10</text></svg>`;
+                }
+            });
+            player.on('enterfullscreen', () => { try { if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(()=>{}); } catch (e) {} });
+            player.on('exitfullscreen', () => { try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); } catch (e) {} });
+        }
+
+        window.setQuality = function(index) {
+            if(window.hlsInstance) {
+                window.hlsInstance.currentLevel = index;
+                document.querySelectorAll('.quality-btn').forEach(btn => { if (parseInt(btn.dataset.val) === index) btn.classList.add('active'); else btn.classList.remove('active'); });
+            }
+        };
+
+        window.setSpeed = function(speed) {
+            if (window.playerInstance) window.playerInstance.speed = speed;
+            const video = document.getElementById('plyr-video');
+            if (video) video.playbackRate = speed;
+            document.querySelectorAll('.speed-btn').forEach(btn => { if (parseFloat(btn.dataset.val) === speed) btn.classList.add('active'); else btn.classList.remove('active'); });
+        };
+
+        window.toggleFullScreen = function() {
+            const playerContainer = document.querySelector('.plyr') || document.getElementById('plyr-video');
+            const videoEl = document.getElementById('plyr-video');
+            if (!playerContainer) return;
+            if (videoEl && typeof videoEl.webkitEnterFullscreen === 'function') { videoEl.webkitEnterFullscreen(); return; }
+
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                if (playerContainer.requestFullscreen) { playerContainer.requestFullscreen().catch(() => { if (videoEl && videoEl.webkitEnterFullscreen) videoEl.webkitEnterFullscreen(); }); } 
+                else if (playerContainer.webkitRequestFullscreen) { playerContainer.webkitRequestFullscreen(); } 
+                else if (playerContainer.msRequestFullscreen) { playerContainer.msRequestFullscreen(); }
+            } else {
+                if (document.exitFullscreen) { document.exitFullscreen(); } else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); } 
+            }
+        };
+
+        window.addEventListener('beforeunload', () => { if (window.playerInstance) window.playerInstance.destroy(); if (window.hlsInstance) window.hlsInstance.destroy(); });
+    </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"debabc6d6c604c6899c4fc83b41395e9","r":1}' crossorigin="anonymous"></script>
+</body>
+</html>

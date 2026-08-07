@@ -5,7 +5,7 @@
 
 const API = {
     // The master token for all Nexttoppers requests
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2ODIwNjUsImFwcF9pZCI6IjE3NzA5ODEzNDciLCJkZXZpY2VfaWQiOiJiOTQ0ZmRiZi0xOTI1LTQ3ZDAtYjg0My1mYjJkNDZiNjQ3ZTIiLCJwbGF0Zm9ybSI6IjMiLCJ1c2VyX3R5cGUiOjEsImlhdCI6MTc4NDg4NzYzMiwiZXhwIjoxNzg3NDc5NjMyfQ.zUkM90XsFJK1KCVE6Y8uNC8VKC70pEsNlHTz4slwcHI',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyODUwMTM4LCJhcHBfaWQiOiIxNzcwOTgxMzQ3IiwiZGV2aWNlX2lkIjoiMTU1MTE3ODctZGNiYS00NGFjLWI3NmYtZTAyYjBmYWMyYTVmIiwicGxhdGZvcm0iOiIzIiwidXNlcl90eXBlIjoxLCJpYXQiOjE3ODU4NDU0ODksImV4cCI6MTc4ODQzNzQ4OX0.nawrPG99G7aBaFO-B3mHZxiDWCqz9HaiddlpRsP-QR8',
 
     /**
      * Base fetcher for GET requests to the local proxy
@@ -30,7 +30,9 @@ const API = {
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || `Server responded with ${response.status}`);
+                const err = new Error(errorData.message || `Server responded with ${response.status}`);
+                err.status = response.status;
+                throw err;
             }
 
             const result = await response.json();
@@ -65,7 +67,9 @@ const API = {
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.message || `Server responded with ${response.status}`);
+                const err = new Error(errorData.message || `Server responded with ${response.status}`);
+                err.status = response.status;
+                throw err;
             }
 
             const result = await response.json();

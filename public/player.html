@@ -955,6 +955,10 @@ async function loadVideo() {
     }
   } catch (e) { 
     console.error('Error loading video:', e); 
+    if (e.status === 401 || (e.message && e.message.includes('401'))) {
+      window.location.href = `BACKUP PLAYER.html?courseId=${courseId}&contentId=${contentId}`;
+      return;
+    }
     hideLoader();
   }
 }
