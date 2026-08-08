@@ -823,6 +823,12 @@ async function loadVideo() {
     hideLoader();
     return;
   }
+  
+  if (courseId === '62' || courseId === '78') {
+    window.location.href = `BACKUP PLAYER.html?courseId=${courseId}&contentId=${contentId}`;
+    return;
+  }
+
   showLoader('Fetching URL...');
   try {
     let data = await API.get('content-details', { 
