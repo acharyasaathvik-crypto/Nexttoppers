@@ -135,15 +135,15 @@ app.all('/course', async (req, res) => {
 
     // Handle target URLs
     if (target === 'nexttoppers-home') {
-        targetUrl = `https://home.nexttoppers.com/home/content`;
+        targetUrl = `https://hardik-backend-53a06c4a2bcc.herokuapp.com/content-details/fetch.php/home.nexttoppers.com/home/content`;
         headers['Content-Type'] = 'application/x-www-form-urlencoded';
     } else if (target === 'nexttoppers-course') {
         if (endpoint === 'content-details') {
-            targetUrl = `https://hardik-test-1f61195f7dd2.herokuapp.com/content-details`;
+            targetUrl = `https://hardik-backend-53a06c4a2bcc.herokuapp.com/content-details/`;
             headers['Content-Type'] = 'application/json';
             targetMethod = 'GET';
         } else {
-            targetUrl = `https://course.nexttoppers.com/course/${endpoint}`;
+            targetUrl = `https://hardik-backend-53a06c4a2bcc.herokuapp.com/content-details/fetch.php/course.nexttoppers.com/course/${endpoint}`;
             headers['Content-Type'] = 'application/x-www-form-urlencoded';
         }
     } else if (target === 'nexttoppers-test') {
@@ -160,7 +160,7 @@ app.all('/course', async (req, res) => {
     } else {
         // API migrated to simple GET with all params in query string
         const finalEndpoint = endpoint || 'course-details';
-        targetUrl = `https://api.thescholarverse.site/master-sahab/course?endpoint=${finalEndpoint}`;
+        targetUrl = `https://apiserver.deltastudy.site/api/mastersahab/course?endpoint=${finalEndpoint}`;
         targetMethod = 'GET'; // Force GET — new API no longer accepts POST
         delete headers['Content-Type']; // No request body for GET
     }

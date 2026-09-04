@@ -834,7 +834,6 @@ async function loadVideo() {
     let data = await API.get('content-details', { 
         content_id: contentId, 
         course_id: courseId,
-        user_id: currentUserId
     }, 'nexttoppers-course');
     
     if (typeof EduVibeDecrypt !== 'undefined' && typeof data.data === 'string') {
