@@ -67,11 +67,11 @@ app.all('/course', async (req, res) => {
     if (target && (target.startsWith('nexttoppers') || target === 'deltastudy')) {
         headers = {
             ...headers,
-            'Origin': 'https://nexttoppers.me.to',
-            'Referer': 'https://nexttoppers.me.to/',
+            'Origin': 'https://nexttoppers.com',
+            'Referer': 'https://nexttoppers.com/',
             'Sec-Fetch-Dest': 'empty',
             'Sec-Fetch-Mode': 'cors',
-            'Sec-Fetch-Site': 'cross-site',
+            'Sec-Fetch-Site': 'same-origin',
             'Sec-Ch-Ua': '"Opera";v="131", "Not.A/Brand";v="8", "Chromium";v="147"',
             'Sec-Ch-Ua-Mobile': '?0',
             'Sec-Ch-Ua-Platform': '"Windows"',
@@ -79,6 +79,10 @@ app.all('/course', async (req, res) => {
             'platform': '3',
             'user_id': (method === 'POST' ? req.body.user_id : req.query.user_id) || '2850138',
             'version': '1',
+            'extra_value': 'NEXT400',
+            'x-app-id': '1770981347',
+            'x-extra-value': 'NEXT400',
+            'x-user-id': (method === 'POST' ? req.body.user_id : req.query.user_id) || '2850138',
             'Content-Type': 'application/json'
         };
     } else if (target === 'penpencil') {
@@ -122,6 +126,14 @@ app.all('/course', async (req, res) => {
     // Authorization forwarding
     if (req.headers['authorization']) {
         headers['Authorization'] = req.headers['authorization'];
+        
+        // Nexttoppers backend also expects the token in the Cookie header
+        if (target && target.startsWith('nexttoppers')) {
+            const token = req.headers['authorization'].replace('Bearer ', '');
+            // Append to existing cookies if any, or create a new Cookie header
+            const existingCookie = req.headers['cookie'] ? req.headers['cookie'] + '; ' : '';
+            headers['Cookie'] = existingCookie + `access_token=${token}`;
+        }
     }
 
     // Forward specific custom signatures/IDs
@@ -139,11 +151,23 @@ app.all('/course', async (req, res) => {
         headers['Content-Type'] = 'application/x-www-form-urlencoded';
     } else if (target === 'nexttoppers-course') {
         if (endpoint === 'content-details') {
-            targetUrl = `https://hardik-backend-53a06c4a2bcc.herokuapp.com/content-details/`;
-            headers['Content-Type'] = 'application/json';
+            targetUrl = `https://nexttoppers.com/api/service-proxy/course/course/content-details`;
+            headers['Content-Type'] = 'application/json; charset=utf-8';
+            headers['extra_value'] = 'NEXT400';
+            headers['x-app-id'] = '1770981347';
+            headers['x-extra-value'] = 'NEXT400';
+            headers['x-user-id'] = (method === 'POST' ? req.body.user_id : req.query.user_id) || '2850138';
             targetMethod = 'GET';
+        } else if (endpoint === 'all-content') {
+            targetUrl = `https://nexttoppers.com/api/service-proxy/course/course/all-content`;
+            headers['Content-Type'] = 'application/json; charset=utf-8';
+            headers['extra_value'] = 'NEXT400';
+            headers['x-app-id'] = '1770981347';
+            headers['x-extra-value'] = 'NEXT400';
+            headers['x-user-id'] = (method === 'POST' ? req.body.user_id : req.query.user_id) || '2850138';
+            targetMethod = 'POST';
         } else {
-            targetUrl = `https://hardik-backend-53a06c4a2bcc.herokuapp.com/content-details/fetch.php/course.nexttoppers.com/course/${endpoint}`;
+            targetUrl = `https://nexttoppers.com/api/service-proxy/course/course/${endpoint}`;
             headers['Content-Type'] = 'application/x-www-form-urlencoded';
         }
     } else if (target === 'nexttoppers-test') {

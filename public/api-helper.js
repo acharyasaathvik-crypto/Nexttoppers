@@ -5,7 +5,7 @@
 
 const API = {
     // The master token for all Nexttoppers requests
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyODUwMTM4LCJhcHBfaWQiOiIxNzcwOTgxMzQ3IiwiZGV2aWNlX2lkIjoiMTU1MTE3ODctZGNiYS00NGFjLWI3NmYtZTAyYjBmYWMyYTVmIiwicGxhdGZvcm0iOiIzIiwidXNlcl90eXBlIjoxLCJpYXQiOjE3ODU4NDU0ODksImV4cCI6MTc4ODQzNzQ4OX0.nawrPG99G7aBaFO-B3mHZxiDWCqz9HaiddlpRsP-QR8',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOTk5NDE4LCJhcHBfaWQiOiIxNzcwOTgxMzQ3IiwiZGV2aWNlX2lkIjoiMTU1MTE3ODctZGNiYS00NGFjLWI3NmYtZTAyYjBmYWMyYTVmIiwicGxhdGZvcm0iOiIzIiwidXNlcl90eXBlIjoxLCJpYXQiOjE3ODk1NjA3NTcsImV4cCI6MTc5MjE1Mjc1N30.flKEvr52f7xJv3P47Ygl9phZoUdlSS5OcIUzRiBZDtE',
 
     /**
      * Base fetcher for GET requests to the local proxy
@@ -17,9 +17,9 @@ const API = {
     async get(endpoint, data = {}, target = 'deltastudy') {
         const queryParams = new URLSearchParams({ endpoint, target, ...data });
         const url = `/course?${queryParams.toString()}`;
-        
+
         console.log(`[API Helper] GET Requesting ${endpoint} on ${target}...`);
-        
+
         try {
             const response = await fetch(url, {
                 method: 'GET',
@@ -52,9 +52,9 @@ const API = {
      */
     async post(endpoint, data = {}, target = 'deltastudy') {
         const url = `/course?endpoint=${endpoint}&target=${target}`;
-        
+
         console.log(`[API Helper] Requesting ${endpoint} on ${target}...`, data);
-        
+
         try {
             const response = await fetch(url, {
                 method: 'POST',
