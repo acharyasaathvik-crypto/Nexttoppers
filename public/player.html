@@ -831,17 +831,47 @@ async function loadVideo() {
 
   showLoader('Fetching URL...');
   try {
-    let data = await API.get('content-details', { 
-        content_id: contentId, 
-        course_id: courseId,
-    }, 'nexttoppers-course');
-    
-    if (typeof EduVibeDecrypt !== 'undefined' && typeof data.data === 'string') {
-        try {
-            data = await EduVibeDecrypt.decryptResponse(data);
-        } catch (err) {
-            console.error('Decryption error:', err);
+    let data;
+    let nexttoppersError = null;
+
+    try {
+      data = await API.get('content-details', { 
+          content_id: contentId, 
+          course_id: courseId,
+      }, 'nexttoppers-course');
+      
+      if (typeof EduVibeDecrypt !== 'undefined' && data && typeof data.data === 'string') {
+          try {
+              data = await EduVibeDecrypt.decryptResponse(data);
+          } catch (err) {
+              console.error('Decryption error:', err);
+          }
+      }
+      
+      if (!data || (!data.success && !data.status) || !data.data) {
+          nexttoppersError = new Error('Nexttoppers API returned unsuccessful response');
+      }
+    } catch (err) {
+      nexttoppersError = err;
+    }
+
+    if (nexttoppersError) {
+      console.log('Nexttoppers API failed, trying backup API...', nexttoppersError);
+      const backupResponse = await fetch(`https://hardik-backend-53a06c4a2bcc.herokuapp.com/content-details/?content_id=${contentId}&course_id=${courseId}`, {
+        method: 'GET',
+        headers: {
+          'app_id': '1770981347',
+          'platform': '3',
+          'user_id': '0',
+          'version': '1'
         }
+      });
+      
+      if (backupResponse.ok) {
+        data = await backupResponse.json();
+      } else {
+        throw nexttoppersError;
+      }
     }
     
     const video = document.getElementById('videoPlayer');
