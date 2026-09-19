@@ -858,6 +858,14 @@ async function loadVideo() {
             content_id: contentId,
             course_id: courseId
         }, 'hardik-backend');
+        
+        if (typeof EduVibeDecrypt !== 'undefined' && data && typeof data.data === 'string') {
+            try {
+                data = await EduVibeDecrypt.decryptResponse(data);
+            } catch (err) {
+                console.error('Decryption error (backup API):', err);
+            }
+        }
       } catch (backupError) {
         throw nexttoppersError;
       }
