@@ -179,6 +179,13 @@ app.all('/course', async (req, res) => {
         targetMethod = 'GET';
     } else if (target === 'penpencil') {
         targetUrl = `https://api.penpencil.co/${endpoint}`;
+    } else if (target === 'hardik-backend') {
+        targetUrl = `https://hardik-backend-53a06c4a2bcc.herokuapp.com/${endpoint}`;
+        targetMethod = 'GET';
+        headers['app_id'] = '1770981347';
+        headers['platform'] = '3';
+        headers['user_id'] = '0';
+        headers['version'] = '1';
     } else if (target === 'studyratna') {
         targetUrl = `https://stream.studyratna.cc/${endpoint}`;
     } else {
